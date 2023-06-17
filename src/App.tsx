@@ -19,27 +19,27 @@ import { routes } from './routes';
 
 
 function App() {
-    const { data, isLoading } = useQuery({
-        queryKey: ['userServices'],
-        queryFn: () => userServices.loginService({
-            email: 'khanhla3344werui@gmail.com',
-            password: "124234edaq24245",
-        }),
-        // staleTime: 1000
-        keepPreviousData: true
-    });
+    // const { data, isLoading } = useQuery({
+    //     queryKey: ['userServices'],
+    //     queryFn: () => userServices.loginService({
+    //         email: 'khanhla3344werui@gmail.com',
+    //         password: "124234edaq24245",
+    //     }),
+    //     // staleTime: 1000
+    //     keepPreviousData: true
+    // });
 
-    const {
-        register,
-        handleSubmit,
-        formState: { errors }
-    } = useForm({
-        resolver: yupResolver(LoginValidation)
-    })
+    // const {
+    //     register,
+    //     handleSubmit,
+    //     formState: { errors }
+    // } = useForm({
+    //     resolver: yupResolver(LoginValidation)
+    // })
 
-    const onSubmit = (data: any) => {
-        console.log(data)
-    }
+    // const onSubmit = (data: any) => {
+    //     console.log(data)
+    // }
 
 
 
@@ -47,7 +47,7 @@ function App() {
 
 
     return (
-        <div className="App" onClick={onSubmit}>
+        <div className="App">
 
             <Suspense fallback={
                 <div className="text-red-400 h-[100vh] flex items-center justify-center">
