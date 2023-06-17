@@ -1,0 +1,33 @@
+*,
+*:after,
+*:before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  color: #fff;
+  font: {
+    size: 15px;
+    weight: 400;
+    family: "Poppins", sans-serif;
+  }
+  overflow-x: hidden;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+button,
+input,
+select,
+textarea {
+  outline: none;
+}
+
+.bg-white-op-30 {
+  background-color: #ffffff6b;
+}
