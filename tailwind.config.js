@@ -7,6 +7,7 @@ module.exports = {
     extend: {
       colors: {
         border: '#ffffff54',
+        border_02: '#ffffff1c',
         color_main: '#080A1A',
         color_01: '#F20000',
         color_02: '#0B0F29',

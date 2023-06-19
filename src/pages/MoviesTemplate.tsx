@@ -1,21 +1,83 @@
 import Movie from "../components/Movie";
-import { MovieType } from "../constants/type/inex";
+import { MovieType, SearchType } from "../constants/type/inex";
 import { listMoves } from "../data";
 import { TbPlayerTrackNext, TbPlayerTrackPrev } from 'react-icons/tb';
+import { FastField, Form, Formik } from 'formik';
+import SelectField from "../custom-fields/SelectField";
+import { CATEGORY_OPTIONS, HOURS_OPTIONS, LANGUAGE_OPTIONS, RATES_OPTIONS, YEAR_OPTIONS } from "../constants/global";
 
 
 const MoviesTemplate = () => {
+    const initialValues: SearchType = {
+        category: '',
+        language: '',
+        yaer: 2023,
+        hours: 2,
+        rate: 4
+    }
+
+    const onSubmit = (values: SearchType) => {
+        console.log(values);
+    };
+
+
+
     return (
         <section className="px-4 bg-color_main pt-[103px]">
-            <div className="max-w-xl mx-auto pb-20">
-                <form className="bg-color_02 p-6 rounded-lg border border-solid border-border mt-6">
-                    <div>
-                        <select name="" id="">
-
-                        </select>
-                    </div>
-
-                </form>
+            <div className="container mx-auto pb-20">
+                <Formik
+                    initialValues={initialValues}
+                    onSubmit={onSubmit}
+                >
+                    {
+                        formikProps => {
+                            return (
+                                <Form className="bg-color_02 p-6 rounded-lg border border-solid border-border_02 mt-6 grid lg:grid-cols-5 sm:grid-cols-2 grid-cols-1 justify-center lg::gap-8 gap-4 text-xs flex-wrap">
+                                    <FastField
+                                        name="category"
+                                        classNameContainer="bg-color_main border border-solid border-border_02 rounded flex-1"
+                                        component={SelectField}
+                                        options={CATEGORY_OPTIONS}
+                                        placeholder="ALl Categories"
+                                    >
+                                    </FastField>
+                                    <FastField
+                                        name="category"
+                                        classNameContainer="bg-color_main border border-solid border-border_02 rounded flex-1"
+                                        component={SelectField}
+                                        options={LANGUAGE_OPTIONS}
+                                        placeholder="Sort By Language"
+                                    >
+                                    </FastField>
+                                    <FastField
+                                        name="category"
+                                        classNameContainer="bg-color_main border border-solid border-border_02 rounded flex-1"
+                                        component={SelectField}
+                                        options={YEAR_OPTIONS}
+                                        placeholder="Sort By Year"
+                                    >
+                                    </FastField>
+                                    <FastField
+                                        name="category"
+                                        classNameContainer="bg-color_main border border-solid border-border_02 rounded flex-1"
+                                        component={SelectField}
+                                        options={HOURS_OPTIONS}
+                                        placeholder="Sort By Hours"
+                                    >
+                                    </FastField>
+                                    <FastField
+                                        name="category"
+                                        classNameContainer="bg-color_main border border-solid border-border_02 rounded flex-1"
+                                        component={SelectField}
+                                        options={RATES_OPTIONS}
+                                        placeholder="Sort By Rates"
+                                    >
+                                    </FastField>
+                                </Form>
+                            )
+                        }
+                    }
+                </Formik>
                 <div>
                     <p className="font-bold mt-8 text-title-lg text-title">
                         Total <span className="text-color_01">10</span> items Found

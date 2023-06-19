@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 const Login = () => {
     return (
         <section className="pt-[103px] bg-color_main py-6 px-4">
-            <div className="max-w-xl mx-auto md:py-24 py-20">
+            <div className="container mx-auto md:py-24 py-20">
                 <form action="" className=" border-solid border-border mx-auto  bg-color_02 w-full 2xl:w-3/5 gap-8 flex-colo p-8 sm:p-14 md:w-3/5 bg-dry  rounded-lg border">
                     <div className="flex flex-col justify-between gap-8">
                         <figure>

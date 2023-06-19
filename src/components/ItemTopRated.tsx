@@ -1,5 +1,6 @@
 import { MovieType } from "../constants/type/inex";
 import { BsStar, BsStarFill, BsStarHalf } from 'react-icons/bs';
+import RatingStar from "./RatingStar";
 
 interface Props {
     movie: MovieType;
@@ -57,11 +58,9 @@ const ItemTopRated: React.FC<Props> = ({
                     <i className="fa-solid fa-heart"></i>
                 </span>
                 <p className="truncate font-medium text-title lg:text-title-lg text-center w-full">{name}</p>
-                <span className="text-yellow-500 flex justify-center items-center gap-1">
-                    {
-                        ratingStar
-                    }
-                </span>
+                <div className="text-yellow-500 flex justify-center items-center gap-1">
+                    <RatingStar rate={rate} />
+                </div>
             </div>
         </div>
     );

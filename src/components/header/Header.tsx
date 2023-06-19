@@ -40,7 +40,7 @@ const Header = () => {
 
     return (
         <header className="bg-color_main block text-md fixed z-[100] inset-x-0">
-            <div className="relative max-w-xl mx-auto flex flex-row justify-between items-center md:gap-16 gap-8 py-6 px-4">
+            <div className="relative container mx-auto flex flex-row justify-between items-center md:gap-16 gap-8 py-6 px-4">
                 <div className="lg:order-1 order-2">
                     <NavLink to="/" className="">
                         <img className="max-w-[146px] object-contain" src="../images/logo.png" alt="" />

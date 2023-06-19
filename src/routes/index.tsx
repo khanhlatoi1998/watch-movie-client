@@ -1,5 +1,6 @@
-import ContactUs from "../components/ContactUs";
+import ContactUs from "../pages/ContactUs";
 import AboutUs from "../pages/AboutUs";
+import Detail from "../pages/Detail";
 import HomePage from "../pages/HomePage";
 import Login from "../pages/Login";
 import MoviesTemplate from "../pages/MoviesTemplate";
@@ -29,5 +30,9 @@ export const routes = [
     {
         path: '/movies',
         element: <MoviesTemplate />
+    },
+    {
+        path: '/detail',
+        element: <Detail />
     }
 ];

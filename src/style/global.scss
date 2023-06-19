@@ -31,3 +31,21 @@ textarea {
 .bg-white-op-30 {
   background-color: #ffffff6b;
 }
+
+.container {
+  max-width: 1280px;
+  // @media only screen and (min-width: 1280px) {
+  //   max-width: 1560px;
+  //   padding-left: 30px;
+  //   padding-right: 30px;
+  // }
+  // @media only screen and (min-width: 991) {
+  //   max-width: 1200px;
+  //   padding-left: 30px;
+  //   padding-right: 30px;
+  // }
+}
+
+.set-h {
+  height: 560px;
+}

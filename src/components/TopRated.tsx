@@ -9,7 +9,7 @@ const TopRate = () => {
 
     return (
         <section className="top-rated bg-color_main px-4 lg:pt-12 pt-8 pb-[70px]">
-            <div className="max-w-xl mx-auto">
+            <div className="container mx-auto">
                 <div className="flex items-center gap-6 lg:text-title-lg  text-title font-bold">
                     <span><i className="fa-solid fa-medal text-color_01"></i></span>
                     <p>Top Rated</p>

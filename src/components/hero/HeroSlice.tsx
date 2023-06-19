@@ -28,7 +28,7 @@ const HeroSlice = () => {
     ]
     return (
         <section className="hero-slice pt-[103px] bg-color_main py-6 px-4">
-            <div className="max-w-xl mx-auto relative lg:pt-[25%] md:pt-[33%] pt-[48%]">
+            <div className="container mx-auto relative lg:pt-[25%] md:pt-[33%] pt-[48%]">
                 <div className="absolute top-0 left-0 w-full h-full">
                     <Swiper
                         direction={"vertical"}

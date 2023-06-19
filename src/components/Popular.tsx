@@ -6,7 +6,7 @@ const Popular = () => {
 
     return (
         <section className="bg-color_main px-4 lg:pt-10 pt-6">
-            <div className="max-w-xl mx-auto">
+            <div className="container mx-auto">
                 <div className="flex items-center gap-6 lg:text-title-lg  text-title font-bold">
                     <span><i className="fa-solid fa-box text-color_01"></i></span>
                     <p>Popular Movies</p>

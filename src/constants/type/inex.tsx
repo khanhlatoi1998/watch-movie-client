@@ -42,3 +42,11 @@ export interface MovieType {
         }
     ]
 }
+
+export interface SearchType {
+    category: string;
+    language: string;
+    yaer: number;
+    hours: number;
+    rate: number;
+}

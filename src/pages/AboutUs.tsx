@@ -1,7 +1,7 @@
 const AboutUs = () => {
     return (
         <section className="px-4 py-4 bg-color_main pt-[103px]">
-            <div className="max-w-xl mx-auto pt-6">
+            <div className="container mx-auto pt-6">
                 <div className="relative md:pt-[24%] pt-[37%] rounded-md overflow-hidden">
                     <figure className="absolute top-0 left-0 w-full h-full">
                         <img src="./images/thumbnail.png" className="w-full h-full object-cover" alt="" />
@@ -28,7 +28,7 @@ const AboutUs = () => {
                         </div>
                     </div>
                     <figure className="xl:block hidden">
-                        <img src="./images/about_02.jpg" className="w-full  rounded-lg object-cover h-[500px]" alt="" />
+                        <img src="./images/about_02.jpg" className="w-full  rounded-lg object-cover set-h" alt="" />
                     </figure>
                 </div>
             </div>
