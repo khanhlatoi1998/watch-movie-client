@@ -53,3 +53,11 @@ export const RATES_OPTIONS = [
   { value: 4, label: '4 Star' },
   { value: 5, label: '5 Star' },
 ]
+export const STAR_REVIEWS_OPTIONS = [
+  { value: 0, label: '0 - Foor' },
+  { value: 1, label: '1 - Fair' },
+  { value: 2, label: '2 - Good' },
+  { value: 3, label: '3 - Very good' },
+  { value: 4, label: '4 - Excellent' },
+  { value: 5, label: '5 - Masterpiece' },
+]

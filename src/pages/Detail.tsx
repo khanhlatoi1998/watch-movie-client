@@ -1,6 +1,10 @@
 import { NavLink } from "react-router-dom";
 import RatingStar from "../components/RatingStar";
 import Cast from "../components/Cast";
+import Reviews from "../components/Reviews";
+import Related from "../components/Related";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Mousewheel, Pagination } from "swiper";
 
 const Detail = () => {
     const a = [1, 3, 4];
@@ -64,21 +68,46 @@ const Detail = () => {
                 </div>
             </div>
             <div className="container mx-auto pt-12">
-                <div className="flex items-center gap-8">
-                    <span>
-                        <i className="text-color_01 fa-solid fa-users"></i>
-                    </span>
-                    <p className="font-bold lg:text-title-lg text-title">Casts</p>
+                <div>
+                    <div className="flex items-center gap-8">
+                        <span>
+                            <i className="text-color_01 fa-solid fa-users text-2xl"></i>
+                        </span>
+                        <p className="font-bold lg:text-title-lg text-title">Casts</p>
+                    </div>
+                    <Swiper
+                        slidesPerView={2}
+                        spaceBetween={30}
+                        loop={true}
+                        autoplay={true}
+                        breakpoints={{
+                            640: {
+                                slidesPerView: 3,
+                                spaceBetween: 40
+                            },
+                            1024: {
+                                slidesPerView: 4,
+                                spaceBetween: 40
+                            },
+                        }}
+                        modules={[Mousewheel, Pagination, Autoplay]}
+                        className="mt-8"
+                    >
+                        {
+                            a.map((cast, idx) => {
+                                return (
+                                    <SwiperSlide key={idx}>
+                                        <Cast />
+
+                                    </SwiperSlide>
+                                )
+                            })
+                        }
+
+                    </Swiper>
                 </div>
-                <div className="grid lg:grid-cols-4 grid-cols-2 gap-8 pt-8">
-                    {
-                        a.map((cast) => {
-                            return (
-                                <Cast />
-                            )
-                        })
-                    }
-                </div>
+                <Reviews />
+                <Related />
             </div>
         </section>
     );

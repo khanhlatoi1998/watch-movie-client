@@ -5,6 +5,7 @@ import HomePage from "../pages/HomePage";
 import Login from "../pages/Login";
 import MoviesTemplate from "../pages/MoviesTemplate";
 import Register from "../pages/Register";
+import Watch from "../pages/Watch";
 
 export const routes = [
     {
@@ -34,5 +35,9 @@ export const routes = [
     {
         path: '/detail',
         element: <Detail />
+    },
+    {
+        path: '/watch',
+        element: <Watch />
     }
 ];

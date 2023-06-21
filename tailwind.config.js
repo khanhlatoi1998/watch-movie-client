@@ -41,6 +41,9 @@ module.exports = {
       },
       borderColor: {
         border: '#ffffff54'
+      },
+      padding: {
+        header: '103px'
       }
     },
   },
