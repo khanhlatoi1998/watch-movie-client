@@ -30,7 +30,7 @@ const FavoritesMovies = () => {
                             <td className="text-sm text-left leading-6 whitespace-nowrap px-5 py-8">English</td>
                             <td className="text-sm text-left leading-6 whitespace-nowrap px-5 py-8">2011</td>
                             <td className="text-sm text-left leading-6 whitespace-nowrap px-5 py-8">6hr</td>
-                            <td className="text-sm text-left leading-6 whitespace-nowrap px-5 py-8 flex items-center gap-2">
+                            <td className="mt-[8px] text-sm text-left leading-6 whitespace-nowrap px-5 py-8 flex items-center gap-2">
                                 <button className="border border-border flex items-center bg-color_02 gap-2 text-border rounded py-1 px-2">
                                     Download
                                     <i className="fa-solid fa-cloud-arrow-down text-green-500"></i>

@@ -1,8 +1,8 @@
 const AboutUs = () => {
     return (
-        <section className="px-4 py-4 bg-color_main pt-[103px]">
-            <div className="container mx-auto pt-6">
-                <div className="relative md:pt-[24%] pt-[37%] rounded-md overflow-hidden">
+        <section className="py-4 bg-color_main pt-[103px]">
+            <div className="container mx-auto pt-6 px-4">
+                <div className="relative md:pt-[24%] pt-[40%] rounded-md overflow-hidden">
                     <figure className="absolute top-0 left-0 w-full h-full">
                         <img src="./images/thumbnail.png" className="w-full h-full object-cover" alt="" />
                     </figure>

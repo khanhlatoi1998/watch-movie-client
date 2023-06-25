@@ -47,7 +47,7 @@ const Profile = () => {
                             }
                         </ul>
                     </div>
-                    <div className="col-span-6 rounded-lg bg-color_02 border border-solid border-border_02 p-6">
+                    <div className="xl:mt-0 mt-8 col-span-6 rounded-lg bg-color_02 border border-solid border-border_02 p-6">
                         {/* <UpdateProfile /> */}
                         <FavoritesMovies />
                     </div>
