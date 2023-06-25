@@ -6,7 +6,7 @@ import Login from "../pages/Login";
 import MoviesTemplate from "../pages/MoviesTemplate";
 import Register from "../pages/Register";
 import Watch from "../pages/Watch";
-import Profile from "../pages/profile";
+import Profile from "../components/profile";
 
 export const routes = [
     {

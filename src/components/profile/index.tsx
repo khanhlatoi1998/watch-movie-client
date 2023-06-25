@@ -1,5 +1,7 @@
 import { useState } from "react";
 import ItemSidebarProfile from "./ItemSidebarProfile";
+import UpdateProfile from "./UpdateProfile";
+import FavoritesMovies from "./FavoritesMovies";
 
 
 const Profile = () => {
@@ -32,9 +34,9 @@ const Profile = () => {
 
     return (
         <section className="bg-color_main pt-header">
-            <div className="container min-h-screen md:py-12 py-6">
-                <div className="flex flex-wrap xl:gap-8 gap-6">
-                    <div className="xl:w-[300px] w-full bg-color_02 border border-border_02 border-solid p-6 rounded-lg">
+            <div className="container xl:min-h-screen md:py-12 pb-12">
+                <div className="xl:grid grid-cols-8 xl:gap-8 gap-6">
+                    <div className="col-span-2 bg-color_02 border border-border_02 border-solid p-6 rounded-lg">
                         <ul>
                             {
                                 listSidebar.map((item, idx) => {
@@ -45,26 +47,9 @@ const Profile = () => {
                             }
                         </ul>
                     </div>
-                    <div className="rounded-lg bg-color_02 flex-1 border border-solid border-border_02 p-6">
-                        <p className="text-title lg:text-title-lg font-bold">Profile</p>
-                        <div>
-                            <input type="text" />
-                            <figure>
-                                <img src="" alt="" />
-                            </figure>
-                        </div>
-                        <div>
-                            <label htmlFor="">Name</label>
-                            <input type="text" />
-                        </div>
-                        <div>
-                            <label htmlFor="">Email</label>
-                            <input type="text" />
-                        </div>
-                        <div className="flex justify-between items-center">
-                            <button>De</button>
-                            <button></button>
-                        </div>
+                    <div className="col-span-6 rounded-lg bg-color_02 border border-solid border-border_02 p-6">
+                        {/* <UpdateProfile /> */}
+                        <FavoritesMovies />
                     </div>
                 </div>
             </div>
