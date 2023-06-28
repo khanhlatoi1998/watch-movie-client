@@ -34,7 +34,7 @@ export const routes = [
         element: <MoviesTemplate />
     },
     {
-        path: '/detail',
+        path: '/detail/:id',
         element: <Detail />
     },
     {

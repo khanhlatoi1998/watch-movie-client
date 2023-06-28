@@ -22,14 +22,14 @@ const InputField: React.FC<Props> = ({
 
     return (
         <div className="mb-[-23px]">
-            <label htmlFor="" className="text-text font-medium">{label}</label>
+            <label htmlFor={name} className="text-text font-medium">{label}</label>
             <br />
             <input
                 className="mt-2 p-5 border-border border rounded border-solid w-full bg-color_main"
                 name={name}
                 {...field}
                 type={type}
-
+                id={name}
                 placeholder={placeholder}
             />
             <p className="text-color_01 min-h-[23px] font-normal text-[14px]">{showError && errors[name]}</p>

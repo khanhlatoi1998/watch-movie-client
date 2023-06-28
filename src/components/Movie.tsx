@@ -1,3 +1,4 @@
+import { NavLink } from "react-router-dom";
 import { MovieType } from "../constants/type/inex";
 
 interface Props {
@@ -28,7 +29,7 @@ const Movie: React.FC<Props> = ({
 
 
     return (
-        <div className="border border-solid border-gray-500 p-1 rounded hover:scale-[0.96] cursor-pointer transition duration-300">
+        <NavLink to={`detail/${link}`} className="border border-solid border-gray-500 p-1 rounded hover:scale-[0.96] cursor-pointer transition duration-300">
             <div className="relative pt-[83%]">
                 <img src={img} alt="" className="absolute top-0 left-0 w-full h-full object-cover" />
                 <div className="absolute bottom-0 left-0 flex justify-between items-center gap-2 bg-[#00000070] w-full px-4 py-3" >
@@ -38,7 +39,7 @@ const Movie: React.FC<Props> = ({
                     </span>
                 </div>
             </div>
-        </div>
+        </NavLink>
     );
 };
 

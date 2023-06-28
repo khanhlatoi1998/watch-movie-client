@@ -23,8 +23,8 @@ const MoviesTemplate = () => {
 
 
     return (
-        <section className="px-4 bg-color_main pt-[103px]">
-            <div className="container mx-auto pb-20">
+        <section className="bg-color_main pt-[103px]">
+            <div className="container px-4 mx-auto pb-20">
                 <Formik
                     initialValues={initialValues}
                     onSubmit={onSubmit}
