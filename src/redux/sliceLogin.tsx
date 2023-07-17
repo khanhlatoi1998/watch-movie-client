@@ -8,14 +8,14 @@ const initialStateLogin: LoginType = {
 }
 
 const reducerLogin = createSlice({
-   name: 'login',
-   initialState: initialStateLogin,
-   reducers: {
+    name: 'login',
+    initialState: initialStateLogin,
+    reducers: {
         get: (state, actiio) => {
             return state
         }
-   } 
+    }
 });
 
 export const login = reducerLogin.reducer;
-export const {get} = reducerLogin.actions;
+export const { get } = reducerLogin.actions;

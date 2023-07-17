@@ -21,7 +21,12 @@ const userServices = {
             localStorage.setItem('userInfo', JSON.stringify(data));
         }
         return data;
-    }
+    },
+    updateProfileService: async (user: any) => {
+        const url = '/users/update';
+        const data = await axiosClient.put(url, {user});
+        return data;
+    },
 }
 
 export default userServices;

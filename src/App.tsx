@@ -16,7 +16,7 @@ import Footer from './components/Footer';
 import React, { Suspense } from 'react';
 import Header from './components/header/Header';
 import { routes } from './routes';
-
+import { Toaster, toast } from 'react-hot-toast';
 
 function App() {
     // const { data, isLoading } = useQuery({
@@ -41,14 +41,17 @@ function App() {
     //     console.log(data)
     // }
 
-
-
     const HomePage = React.lazy(() => import('./pages/HomePage'));
+
+    toast.error("This didn't work.")
 
 
     return (
         <div className="App">
-
+            <Toaster
+                position="bottom-left"
+                reverseOrder={false}
+            />
             <Suspense fallback={
                 <div className="text-red-400 h-[100vh] flex items-center justify-center">
                     <svg className="pl" width="240" height="240" viewBox="0 0 240 240">
@@ -77,36 +80,6 @@ function App() {
                     <Footer />
                 </BrowserRouter>
             </Suspense>
-            {/* <form
-                onSubmit={handleSubmit(onSubmit)}
-            >
-
-                <InputLogin
-                    name="email"
-                    type="text"
-                    label="email"
-                    register={register("email")}
-                    placeholder="1234dad"
-                />
-                <div>
-                    {
-                        errors.email && <InlineError text={errors.email.message}/>
-                    }
-                </div>
-
-                <InputLogin
-                    name="password"
-                    type="text"
-                    label="password"
-                    register={register("password")}
-                    placeholder="******"
-                />
-                 {
-                        errors.password && <InlineError text={errors.password.message}/>
-                    }
-                <button type="submit">Submit </button>
-            </form> */}
-
         </div>
     );
 }

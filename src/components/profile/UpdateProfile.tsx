@@ -1,18 +1,52 @@
 import { FastField, Form, Formik } from "formik"
 import InputField from "../../custom-fields/InputField";
-import { ResgisterValidation } from "../../validation/UserValidation";
+import { UpdateProfileValidation } from "../../validation/UserValidation";
+import { useSelector } from "react-redux";
+import { useRef, useState } from "react";
+
+interface UpdateProfileType {
+    fullName: string;
+    email: string;
+    file: any
+}
 
 const UpdateProfile = () => {
+    const userInfo = useSelector((state: any) => state.userInfo);
+    const refImageUserInfo = useRef(null);
+    const [initialValues, setInitialValues] = useState<any>({
+        fullName: userInfo.fullName,
+        email: userInfo.email,
+        image: userInfo.image
+    });
 
-    const onSubmit = () => {
-
+    const onSubmit = (values: any) => {
+        console.log(values)
     };
+
+    const handleInputImage = (e: any) => {
+        // let image: any = '';
+        const file = e.target.files[0];
+        const fileReader = new FileReader();
+        fileReader.readAsDataURL(file);
+        fileReader.addEventListener('load', (e: any) => {
+            const ref: any = refImageUserInfo;
+            ref.current.src = e.target.result;
+            // image = fileReader.result;
+            setInitialValues({
+                ...initialValues,
+                image: file
+            })
+        })
+    };
+
+    console.log(initialValues)
 
     return (
         <div className="">
             <Formik
-                initialValues={{}}
-                validationSchema={ResgisterValidation}
+            enableReinitialize={true}
+                initialValues={initialValues}
+                validationSchema={UpdateProfileValidation}
                 onSubmit={onSubmit}
             >
                 {
@@ -23,7 +57,7 @@ const UpdateProfile = () => {
                                 <div className="w-full grid lg:grid-cols-12 gap-6 text-center">
                                     <label className="col-span-10 block" htmlFor="upload-file">
                                         <div className="px-6 w-full py-8 border-2 border-border border-dashed bg-color_main rounded-md cursor-pointer">
-                                            <input type="file" className="hidden" name="upload-file" id="upload-file" />
+                                            <input type="file" onChange={handleInputImage} className="hidden" name="upload-file" accept="image/*" id="upload-file" />
                                             <span>
                                                 <i className="text-color_01 fa-solid fa-arrow-up-from-bracket text-2xl"></i>
                                             </span>
@@ -33,26 +67,28 @@ const UpdateProfile = () => {
                                     </label>
                                     <div className="col-span-2">
                                         <figure className="w-32 mt-2 h-32 p-2 bg-color_main border-solid border border-border rounded">
-                                            <img className="w-full h-full object-cover rounded" src="https://firebasestorage.googleapis.com/v0/b/netflixo-minah.appspot.com/o/859e9b82-4e4a-47b2-9e5f-9100edc201d7.png?alt=media" alt="" />
+                                            <img ref={refImageUserInfo} className="w-full h-full object-cover rounded" src={userInfo?.image} alt="" />
                                         </figure>
                                     </div>
                                 </div>
                                 <FastField
                                     name="fullName"
-                                    label="new name"
+                                    label="Full Name"
+                                    // value="se"
                                     component={InputField}
                                 >
                                 </FastField>
                                 <FastField
                                     name="email"
-                                    label="new name"
+                                    label="Email"
+                                    // value="va"
                                     component={InputField}
                                 >
                                 </FastField>
 
                                 <div className="flex gap-2 flex-wrap flex-col-reverse font-medium sm:flex-row justify-between items-center my-4">
                                     <button className="rounded py-3 px-6 font-medium bg-color_01 w-full sm:w-auto hover:border borer-solid border-color_01 hover:bg-color_main">Delete Account</button>
-                                    <button className="rounded py-3 px-6 font-medium bg-color_main w-full sm:w-auto border borde-solid border-color_01 hover:bg-color_01">Upload Profile</button>
+                                    <button type="submit" className="rounded py-3 px-6 font-medium bg-color_main w-full sm:w-auto border borde-solid border-color_01 hover:bg-color_01">Upload Profile</button>
                                 </div>
                             </Form>
                         )

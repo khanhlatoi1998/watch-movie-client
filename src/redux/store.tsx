@@ -1,8 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { login } from "./sliceLogin";
+import { userInfo } from "./sliceUserInfo";
 
 const rootReducer = {
-    login: login
+    login: login,
+    userInfo: userInfo
 };
 
 const store = configureStore({

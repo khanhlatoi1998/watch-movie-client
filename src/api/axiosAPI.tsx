@@ -18,9 +18,16 @@ axiosClient.interceptors.response.use((response) => {
         return response.data;
     }
 
-    return response
-}, (err) => {
-    throw err;
+    return response;
+}, (error) => {
+    if (error.response.status === 401) {
+        // handle unauthorized error
+    } else if (error.response.status === 404) {
+        // handle not found error
+    } else {
+        // handle other errors
+    }
+    return Promise.reject(error);
 });
 
 export default axiosClient;

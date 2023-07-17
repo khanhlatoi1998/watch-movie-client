@@ -42,11 +42,19 @@ export interface MovieType {
         }
     ]
 }
-
 export interface SearchType {
     category: string;
     language: string;
     yaer: number;
     hours: number;
     rate: number;
+}
+
+export interface UserInfoType {
+    _id: string;
+    fullName: string;
+    token: string;
+    isAdmin: boolean;
+    image: string;
+    likeMovies: Array<MovieType>
 }

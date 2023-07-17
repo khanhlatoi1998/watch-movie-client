@@ -2,8 +2,18 @@ import { FastField, Form, Formik } from "formik";
 import { NavLink } from "react-router-dom";
 import { ResgisterValidation } from "../validation/UserValidation";
 import InputField from "../custom-fields/InputField";
+import userServices from "../api/userServices";
+import { useState } from "react";
+import { toast } from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { saveUserInfo } from "../redux/sliceUserInfo";
+import { useNavigate } from "react-router-dom";
+
 
 const Register = () => {
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const initialValues = {
         fullName: '',
@@ -12,7 +22,18 @@ const Register = () => {
     };
 
     const onSubmit = (values: any) => {
-        console.log(values);
+        setIsLoading(true);
+        userServices.registerService(values)
+            .then((res: any) => {
+                setIsLoading(false);
+                toast.success('Sign up success');
+                dispatch(saveUserInfo(res));
+                navigate('/profile')
+            })
+            .catch(err => {
+                toast.error(err.response.data.message);
+                setIsLoading(false);
+            })
     };
 
 
@@ -62,7 +83,9 @@ const Register = () => {
                                                 <i className="fa-solid fa-arrow-right-to-bracket mr-4"></i>
                                             </span>
                                             <span className="font-medium">
-                                                Sign Up
+                                                {
+                                                    isLoading ? 'Loading...' : 'Sign Up'
+                                                }
                                             </span>
                                         </button>
                                         <p className="text-center text-border">

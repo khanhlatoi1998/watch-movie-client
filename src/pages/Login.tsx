@@ -1,19 +1,45 @@
 import { FastField, Form, Formik } from "formik";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import InputField from "../custom-fields/InputField";
 import { LoginValidation } from "../validation/UserValidation";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import userServices from "../api/userServices";
+import { toast } from "react-hot-toast";
+import { saveUserInfo } from "../redux/sliceUserInfo";
 
 const Login = () => {
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const userInfo = useSelector((state: any) => state.userInfo);
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (userInfo) {
+            navigate('/profile');
+        }
+    }, []);
+
     const initialValues = {
         email: '',
         password: ''
     }
 
-
-
     const onSubmit = (values: any) => {
-        console.log(values)
+        setIsLoading(true);
+        userServices.loginService(values)
+            .then(res => {
+                dispatch(saveUserInfo(res));
+                toast.success('Sign in success!');
+                navigate('/profile');
+            })
+            .catch(err => {
+                toast.error(err.response.data.message);
+                setIsLoading(false);
+            });
     };
+
+    console.log(userInfo);
 
 
     return (
@@ -54,7 +80,9 @@ const Login = () => {
                                                 <i className="fa-solid fa-arrow-right-to-bracket mr-4"></i>
                                             </span>
                                             <span className="font-medium">
-                                                Sign In
+                                                {
+                                                    isLoading ? 'Loading' : ' Sign In'
+                                                }
                                             </span>
                                         </button>
                                         <p className="text-center text-border">

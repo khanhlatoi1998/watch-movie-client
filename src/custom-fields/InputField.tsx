@@ -1,3 +1,4 @@
+import InlineError from "../notfications/Error";
 
 interface Props {
     type?: string;
@@ -32,7 +33,7 @@ const InputField: React.FC<Props> = ({
                 id={name}
                 placeholder={placeholder}
             />
-            <p className="text-color_01 min-h-[23px] font-normal text-[14px]">{showError && errors[name]}</p>
+            <InlineError text={showError && errors[name]} />
         </div>
     );
 };

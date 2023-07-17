@@ -4,6 +4,8 @@ import './index.css';
 import App from './App';
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 import {ReactQueryDevtools} from '@tanstack/react-query-devtools';
+import { Provider } from 'react-redux';
+import store from './redux/store';
 
 
 const queryClient = new QueryClient();
@@ -13,10 +15,13 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
+    <Provider store={store}>
     <QueryClientProvider client={queryClient}>
+
       <App />
       {/* <ReactQueryDevtools initialIsOpen={true} /> */}
     </QueryClientProvider>
+    </Provider>
   </React.StrictMode>
 );
 

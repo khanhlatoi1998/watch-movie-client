@@ -1,16 +1,15 @@
 
 interface Props {
-    text?: any;
+    text?: string;
 }
 
 
-const InlineError: React.FC<Props> = ({text}) => {
-
+const InlineError: React.FC<Props> = ({ text }) => {
     return (
-        <div className="text-red-800 w-full mt-2 text-xs font-medium">
-            <p>{text}</p>
-        </div>
+        <p className="text-color_01 min-h-[23px] font-normal text-[14px]">
+           {text}
+        </p>
     )
-};  
+};
 
 export default InlineError;

@@ -2,9 +2,9 @@ import { useState } from "react";
 import { ItemType } from "../../constants/type/inex";
 import NavItem from "./NavItem";
 import { NavLink } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Header = () => {
-
     const items: Array<ItemType> = [
         {
             link: '/movies',
@@ -34,9 +34,9 @@ const Header = () => {
         //     icon: <i className="fa-solid fa-heart"></i>
         // }
     ];
-
     const [openMenu, setOpenMenu] = useState<boolean>(false);
     const [openSearch, setOpenSearch] = useState<boolean>(false);
+    const userInfo = useSelector((state: any) => state.userInfo);
 
     return (
         <header className="bg-color_main block text-md fixed z-[100] inset-x-0">
@@ -76,7 +76,13 @@ const Header = () => {
                             <i className={`fa-solid fa-xmark text-xl cursor-pointer p-1 ${openSearch ? '' : 'hidden'}`} onClick={() => setOpenSearch(false)}></i>
                         </span>
                         <NavLink to="/login" className={({ isActive }) => (isActive ? "hover:text-color_01 transition duration-500 p-1 text-color_01" : "hover:text-color_01 transition duration-500 p-1")}>
-                            <i className="fa-regular fa-user"></i>
+                            {
+                                userInfo
+                                    ? (<figure>
+                                        <img className="w-8 h-8 rounded-full border border-solid object-cover border-color_01" src={userInfo.image} alt="" />
+                                    </figure>)
+                                    : (<i className="fa-regular fa-user"></i>)
+                            }
                         </NavLink>
                         <NavLink to="/favorite" className={({ isActive }) => (`p-1 hover:text-color_01 ${isActive ? "text-color_01" : ""}`)}>
                             <i className="fa-solid fa-heart"></i>
