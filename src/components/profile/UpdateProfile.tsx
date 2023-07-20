@@ -1,8 +1,11 @@
 import { FastField, Form, Formik } from "formik"
 import InputField from "../../custom-fields/InputField";
 import { UpdateProfileValidation } from "../../validation/UserValidation";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useRef, useState } from "react";
+import userServices from "../../api/userServices";
+import InputFileField from "../../custom-fields/InputFileField";
+import { updateUsreInfo } from "../../redux/sliceUserInfo";
 
 interface UpdateProfileType {
     fullName: string;
@@ -13,14 +16,28 @@ interface UpdateProfileType {
 const UpdateProfile = () => {
     const userInfo = useSelector((state: any) => state.userInfo);
     const refImageUserInfo = useRef(null);
+    const disPatch = useDispatch();
     const [initialValues, setInitialValues] = useState<any>({
+        _id: userInfo._id,
         fullName: userInfo.fullName,
         email: userInfo.email,
-        image: userInfo.image
+        image: userInfo.image,
+        token: userInfo.token,
+        file: ""
     });
 
     const onSubmit = (values: any) => {
-        console.log(values)
+        console.log(values.image)
+        const formData = new FormData();
+        for (let key in values) {
+            formData.append(key, values[key])
+        }
+        userServices.updateProfileService(formData)
+            .then((res: any) => {
+                console.log('res', res);
+                disPatch(updateUsreInfo(res));
+            })
+            .catch(err => { })
     };
 
     const handleInputImage = (e: any) => {
@@ -32,19 +49,17 @@ const UpdateProfile = () => {
             const ref: any = refImageUserInfo;
             ref.current.src = e.target.result;
             // image = fileReader.result;
-            setInitialValues({
-                ...initialValues,
-                image: file
-            })
+            // setInitialValues({
+            //     ...initialValues,
+            //     file: file
+            // })
         })
     };
-
-    console.log(initialValues)
 
     return (
         <div className="">
             <Formik
-            enableReinitialize={true}
+                enableReinitialize={true}
                 initialValues={initialValues}
                 validationSchema={UpdateProfileValidation}
                 onSubmit={onSubmit}
@@ -57,7 +72,15 @@ const UpdateProfile = () => {
                                 <div className="w-full grid lg:grid-cols-12 gap-6 text-center">
                                     <label className="col-span-10 block" htmlFor="upload-file">
                                         <div className="px-6 w-full py-8 border-2 border-border border-dashed bg-color_main rounded-md cursor-pointer">
-                                            <input type="file" onChange={handleInputImage} className="hidden" name="upload-file" accept="image/*" id="upload-file" />
+                                            <FastField
+                                                name="file"
+                                                type="file"
+                                                accept="image/*"
+                                                component={InputFileField}
+                                                handleInputImage={handleInputImage}
+                                            >
+                                            </FastField>
+                                            {/* <input type="file" onChange={handleInputImage} className="hidden" name="upload-file" accept="image/*" id="upload-file" /> */}
                                             <span>
                                                 <i className="text-color_01 fa-solid fa-arrow-up-from-bracket text-2xl"></i>
                                             </span>

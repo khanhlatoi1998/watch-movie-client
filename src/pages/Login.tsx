@@ -39,9 +39,6 @@ const Login = () => {
             });
     };
 
-    console.log(userInfo);
-
-
     return (
         <section className="pt-[103px] bg-color_main py-6 px-4">
             <div className="container mx-auto md:py-24 py-20">

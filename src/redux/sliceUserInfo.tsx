@@ -22,9 +22,12 @@ const reducerUserInfo = createSlice({
             localStorage.removeItem('userInfo');
             return null;
         },
+        updateUsreInfo: (state, action) => {
+            return state = action?.payload
+        }
     }
 });
 
 export const userInfo = reducerUserInfo.reducer;
-export const { get, saveUserInfo, removeUserInfo } = reducerUserInfo.actions;
+export const { get, saveUserInfo, removeUserInfo, updateUsreInfo } = reducerUserInfo.actions;
 
