@@ -16,7 +16,11 @@ const Login = () => {
 
     useEffect(() => {
         if (userInfo) {
-            navigate('/profile');
+            if (userInfo.isAdmin) {
+                navigate('/profile/dashboard');
+            } else {
+                navigate('/profile/update-profile')
+            }
         }
     }, []);
 
@@ -28,10 +32,15 @@ const Login = () => {
     const onSubmit = (values: any) => {
         setIsLoading(true);
         userServices.loginService(values)
-            .then(res => {
+            .then((res: any) => {
                 dispatch(saveUserInfo(res));
                 toast.success('Sign in success!');
-                navigate('/profile');
+                console.log(res);
+                if (res.isAdmin) {
+                    navigate('/profile/dashboard');
+                } else {
+                    navigate('/profile/update-profile')
+                }
             })
             .catch(err => {
                 toast.error(err.response.data.message);

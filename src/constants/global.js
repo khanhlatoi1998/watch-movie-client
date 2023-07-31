@@ -61,3 +61,4 @@ export const STAR_REVIEWS_OPTIONS = [
   { value: 4, label: '4 - Excellent' },
   { value: 5, label: '5 - Masterpiece' },
 ]
+

@@ -33,46 +33,51 @@ const MoviesTemplate = () => {
                         formikProps => {
                             return (
                                 <Form className="bg-color_02 p-6 rounded-lg border border-solid border-border_02 mt-6 grid lg:grid-cols-5 sm:grid-cols-2 grid-cols-1 justify-center lg::gap-8 gap-4 text-xs flex-wrap">
-                                    <FastField
-                                        name="category"
-                                        classNameContainer="bg-color_main border border-solid border-border_02 rounded flex-1"
-                                        component={SelectField}
-                                        options={CATEGORY_OPTIONS}
-                                        placeholder="ALl Categories"
-                                    >
-                                    </FastField>
-                                    <FastField
-                                        name="category"
-                                        classNameContainer="bg-color_main border border-solid border-border_02 rounded flex-1"
-                                        component={SelectField}
-                                        options={LANGUAGE_OPTIONS}
-                                        placeholder="Sort By Language"
-                                    >
-                                    </FastField>
-                                    <FastField
-                                        name="category"
-                                        classNameContainer="bg-color_main border border-solid border-border_02 rounded flex-1"
-                                        component={SelectField}
-                                        options={YEAR_OPTIONS}
-                                        placeholder="Sort By Year"
-                                    >
-                                    </FastField>
-                                    <FastField
-                                        name="category"
-                                        classNameContainer="bg-color_main border border-solid border-border_02 rounded flex-1"
-                                        component={SelectField}
-                                        options={HOURS_OPTIONS}
-                                        placeholder="Sort By Hours"
-                                    >
-                                    </FastField>
-                                    <FastField
-                                        name="category"
-                                        classNameContainer="bg-color_main border border-solid border-border_02 rounded flex-1"
-                                        component={SelectField}
-                                        options={RATES_OPTIONS}
-                                        placeholder="Sort By Rates"
-                                    >
-                                    </FastField>
+                                    <div className="bg-color_main border border-solid border-border_02 rounded flex-1">
+                                        <FastField
+                                            name="category"
+                                            component={SelectField}
+                                            options={CATEGORY_OPTIONS}
+                                            placeholder="ALl Categories"
+                                        >
+                                        </FastField>
+                                    </div>
+                                    <div className="bg-color_main border border-solid border-border_02 rounded flex-1">
+                                        <FastField
+                                            name="category"
+                                            component={SelectField}
+                                            options={LANGUAGE_OPTIONS}
+                                            placeholder="Sort By Language"
+                                        >
+                                        </FastField>
+                                    </div>
+                                    <div className="bg-color_main border border-solid border-border_02 rounded flex-1">
+                                        <FastField
+                                            name="category"
+                                            component={SelectField}
+                                            options={YEAR_OPTIONS}
+                                            placeholder="Sort By Year"
+                                        >
+                                        </FastField>
+                                    </div>
+                                    <div className="bg-color_main border border-solid border-border_02 rounded flex-1">
+                                        <FastField
+                                            name="category"
+                                            component={SelectField}
+                                            options={HOURS_OPTIONS}
+                                            placeholder="Sort By Hours"
+                                        >
+                                        </FastField>
+                                    </div>
+                                    <div className="bg-color_main border border-solid border-border_02 rounded flex-1">
+                                        <FastField
+                                            name="category"
+                                            component={SelectField}
+                                            options={RATES_OPTIONS}
+                                            placeholder="Sort By Rates"
+                                        >
+                                        </FastField>
+                                    </div>
                                 </Form>
                             )
                         }

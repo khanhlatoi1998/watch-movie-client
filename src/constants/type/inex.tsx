@@ -58,3 +58,14 @@ export interface UserInfoType {
     image: string;
     likeMovies: Array<MovieType>
 }
+
+export interface ItemDashboardType {
+    label: string;
+    state: string;
+    icon: JSX.Element ,
+    onClick?: Function;
+    component?: JSX.Element;
+    href?: string;
+}
+
+

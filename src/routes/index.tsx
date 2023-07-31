@@ -7,6 +7,12 @@ import MoviesTemplate from "../pages/MoviesTemplate";
 import Register from "../pages/Register";
 import Watch from "../pages/Watch";
 import Profile from "../pages/Profile";
+import UpdateProfile from "../components/profile/UpdateProfile";
+import DashboardProfile from "../components/profile/DashboardProfile";
+import MoviesListProfile from "../components/profile/MoivesListProfile";
+import AddMovieProfile from "../components/profile/AddMovieProfile";
+import FavoritesMovies from "../components/profile/FavoritesMovies";
+import ChangePassword from "../components/profile/ChangePassword";
 
 export const routes = [
     {
@@ -43,6 +49,33 @@ export const routes = [
     },
     {
         path: '/profile',
-        element: <Profile />
+        element: <Profile />,
+        children: [
+            {
+                path: 'dashboard',
+                element: <DashboardProfile />
+            },
+            {
+                path: 'movies-list',
+                element: <MoviesListProfile />
+            },
+            {
+                path: 'add-movie',
+                element: <AddMovieProfile />
+            },
+            {
+                path: 'update-profile',
+                element: <UpdateProfile />
+            },
+            {
+                path: 'favorites-movies',
+                element: <FavoritesMovies />
+            },
+            {
+                path: 'change-password',
+                element: <ChangePassword />
+            },
+
+        ]
     }
 ];

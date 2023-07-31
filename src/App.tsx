@@ -43,9 +43,6 @@ function App() {
 
     const HomePage = React.lazy(() => import('./pages/HomePage'));
 
-    toast.error("This didn't work.")
-
-
     return (
         <div className="App">
             <Toaster
@@ -72,7 +69,19 @@ function App() {
                                         key={idx}
                                         path={route.path}
                                         element={route.element}
-                                    />
+                                    >
+                                        {
+                                            route.children?.map((children: any, key: any) => {
+                                                return (
+                                                    <Route
+                                                        key={key}
+                                                        path={children.path}
+                                                        element={children.element}
+                                                    ></Route>
+                                                )
+                                            })
+                                        }
+                                    </Route>
                                 )
                             })
                         }

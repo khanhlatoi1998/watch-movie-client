@@ -1,11 +1,11 @@
+import { NavLink } from "react-router-dom";
+
 interface Props {
     item: any;
     activeSidebar: string;
     setActiveSidebar: any;
     onClick?: Function;
 }
-
-
 
 const ItemSidebarProfile: React.FC<Props> = (
     {
@@ -15,9 +15,11 @@ const ItemSidebarProfile: React.FC<Props> = (
     }
 ) => {
     return (
-        <li onClick={onClick} className={`${activeSidebar === state ? 'bg-white text-color_01' : 'hover:bg-color_main'} cursor-pointer rounded font-medium text-sm transition duration-500 flex gap-3 items-center p-4`}>
-            {icon}
-            <span className="cursor-pointer">{label}</span>
+        <li >
+            <NavLink to={`${state}`} onClick={onClick} className={({isActive}) => (`${isActive ? 'bg-white text-color_01' : 'hover:bg-color_main'} cursor-pointer rounded font-medium text-sm transition duration-500 p-4 flex gap-3 items-center`)}>
+                {icon}
+                <span className="cursor-pointer">{label}</span>
+            </NavLink>
         </li>
     )
 };

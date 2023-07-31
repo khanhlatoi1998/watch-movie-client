@@ -27,14 +27,12 @@ const UpdateProfile = () => {
     });
 
     const onSubmit = (values: any) => {
-        console.log(values.image)
         const formData = new FormData();
         for (let key in values) {
             formData.append(key, values[key])
         }
         userServices.updateProfileService(formData)
             .then((res: any) => {
-                console.log('res', res);
                 disPatch(updateUsreInfo(res));
             })
             .catch(err => { })
@@ -70,7 +68,7 @@ const UpdateProfile = () => {
                             <Form className="flex-1 flex flex-col gap-8">
                                 <p className="text-title lg:text-title-lg font-bold">Profile</p>
                                 <div className="w-full grid lg:grid-cols-12 gap-6 text-center">
-                                    <label className="col-span-10 block" htmlFor="upload-file">
+                                    <label className="col-span-10 block" htmlFor="file">
                                         <div className="px-6 w-full py-8 border-2 border-border border-dashed bg-color_main rounded-md cursor-pointer">
                                             <FastField
                                                 name="file"

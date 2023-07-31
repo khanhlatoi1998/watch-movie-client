@@ -28,13 +28,23 @@ const userServices = {
             "Authorization": "Bearer {token}",
             "Content-Type": ["multipart/form-data", "boundary=something"]
         }
-        const data = await axiosClient.put(url, user , {headers});
+        const data = await axiosClient.put(url, user, { headers });
         if (data) {
             localStorage.removeItem('userInfo');
             localStorage.setItem('userInfo', JSON.stringify(data));
         }
         return data;
     },
+    changePasswordService: async (user: any) => {
+        const url = '/users/password';
+        const token = user.token;
+        console.log(token)
+        const headers = {
+            "Authorization": `Bearer ${token}`,
+        }
+        const data = await axiosClient.put(url, { user }, { headers });
+        return data;
+    }
 }
 
 export default userServices;

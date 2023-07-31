@@ -1,3 +1,5 @@
+import InlineError from "../notfications/Error";
+
 interface Props {
     form: any;
     field: any;
@@ -13,6 +15,8 @@ const InputFileField: React.FC<Props> = ({
 }) => {
 
     const { name, value, onChange, onBlur } = field;
+    const {errors, touched} = form;
+    const showError = errors[name] && touched[name];
     const onChangeFile = (e: any) => {
         handleInputImage(e);
         form.setFieldValue(name, e.target.files[0]);
@@ -28,8 +32,9 @@ const InputFileField: React.FC<Props> = ({
                 className="hidden"
                 name={name}
                 accept={accept}
-                id="upload-file"
+                id={name}
             />
+            <InlineError text={showError && errors[name]} />
         </>
     );
 };

@@ -8,16 +8,17 @@ interface Props {
     options: Array<any>;
     filed: any;
     form: any;
+    label: string;
 }
 
 
 const SelectField: React.FC<Props> = (
-    { name, classNameContainer, classNameSelect, placeholder, options }
+    { name, classNameContainer, classNameSelect, placeholder, options, label }
 ) => {
 
 
     return (
-        <div className={classNameContainer}>
+        <div>
             <Select
                 name={name} id=""
                 placeholder={placeholder}
@@ -36,7 +37,7 @@ const SelectField: React.FC<Props> = (
                         boxShadow: 'none',
                         color: 'red',
                         padding: '4px 8px',
-  
+
                     }),
                     container: (baseStyles, state) => ({
                         ...baseStyles,
