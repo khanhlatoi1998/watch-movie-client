@@ -18,10 +18,24 @@ const ChangePasswordValidation = yup.object().shape({
 const AddCastValidation = yup.object().shape({
     nameCast: yup.string().required('Cast Name is required'),
     fileCast: yup.string().required('Image Cast is required')
+});
+
+const AddMovieValidation = yup.object().shape({
+    movieTitle: yup.string().required('Cast Name is required'),
+    hours: yup.string().required('Hour is required'),
+    language: yup.string().required('Language is required'),
+    year: yup.string().required('Year is required'),
+    imageWithTitle: yup.string().required('Image With Title is required'),
+    imageWithThumbnail: yup.string().required('Image With Thumbnail is required'),
+    movieDescription: yup.string().required('Movie Description is required'),
+    movieCategory: yup.string().required('Movie Category is required'),
+    movieVideo: yup.string().required('Movie Video is required'),
+    casts: yup.array().nullable(),
 })
 
 export {
     ProfileValidation,
     ChangePasswordValidation,
-    AddCastValidation
+    AddCastValidation,
+    AddMovieValidation
 }

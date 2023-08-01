@@ -6,7 +6,8 @@ import TextareaMessageReviews from "../../custom-fields/TextareaMessageReviews";
 import TextaereaMovieDescription from "../../custom-fields/TextaereaMovieDescription";
 import SelectField from "../../custom-fields/SelectField";
 import { CATEGORY_OPTIONS } from "../../constants/global";
-import { AddCastValidation } from "../../validation/ProfileValidation";
+import { AddCastValidation, AddMovieValidation } from "../../validation/ProfileValidation";
+import InputFileVideoField from "../../custom-fields/InputFIleVideoField";
 
 interface AddCastType {
     nameCast: string;
@@ -38,7 +39,10 @@ const AddMovieProfile = () => {
         year: '',
         imageWithTitle: '',
         imageWithThumbnail: '',
-        movieVideo: ''
+        movieDescription: '',
+        movieCategory: '',
+        movieVideo: '',
+        casts: []
     };
 
     const initialValuesAddCast: AddCastType = {
@@ -72,7 +76,13 @@ const AddMovieProfile = () => {
         listCast.push(newValue);
     }
 
-    console.log(listCast);
+    const onSubmitAddMovie = (values: any) => {
+        const newValues = {
+            ...values,
+            casts: listCast
+        }
+        console.log(newValues);
+    };
 
     return (
         <div>
@@ -80,7 +90,8 @@ const AddMovieProfile = () => {
             <div>
                 <Formik
                     initialValues={initialValuesAddMovie}
-                    onSubmit={() => { }}
+                    onSubmit={onSubmitAddMovie}
+                    validationSchema={AddMovieValidation}
                 >
                     {
                         formikProp => {
@@ -180,8 +191,7 @@ const AddMovieProfile = () => {
                                         </FastField>
                                     </div>
                                     <div className="">
-                                        <label htmlFor="movieCategoryAdmin" className="text-text font-medium">Movie Catergory</label>
-                                        <div className=" mt-2 bg-color_main border border-solid border-border_02 rounded flex-1">
+                                        <div className="">
                                             <FastField
                                                 name="movieCategory"
                                                 label="Movie Catergory"
@@ -194,14 +204,13 @@ const AddMovieProfile = () => {
                                     </div>
                                     <div className="">
                                         <p className="text-text font-medium">Image with Thumnail</p>
-                                        <label className="col-span-10 block mt-2" htmlFor="imageWithThumbnail">
+                                        <label className="col-span-10 block mt-2" htmlFor="movieVideo">
                                             <div className="px-6 w-full py-8  text-center border-2 border-border border-dashed bg-color_main rounded-md cursor-pointer">
                                                 <FastField
                                                     name="movieVideo"
                                                     type="file"
                                                     accept="video/*"
-                                                    component={InputFileField}
-                                                    handleInputImage={(e: any) => handleInputImage(e, refImageWithThumbnail)}
+                                                    component={InputFileVideoField}
                                                 >
                                                 </FastField>
                                                 {/* <input type="file" onChange={handleInputImage} className="hidden" name="upload-file" accept="image/*" id="upload-file" /> */}
@@ -212,6 +221,14 @@ const AddMovieProfile = () => {
                                                 <em className="text-xs text-border">only .mp4 and .AVI files will be accepted</em>
                                             </div>
                                         </label>
+                                    </div>
+                                    <div className="flex gap-4">
+                                        <video id="video-element" controls src="https://youtu.be/j57IzkTFnT8" className="m-w-full m-h-[200px]">
+
+                                        </video>
+                                        <div>
+                                            <i className="fa-solid fa-xmark"></i>
+                                        </div>
                                     </div>
                                     <div className="grid grid-cols-2 gap-6  items-start">
                                         <button onClick={() => setOpenPopupAddCast(true)} type="button" className="w-full bg-color_main border border-solid border-color_01 rounded p-4 text-center">

@@ -1,25 +1,33 @@
+import InlineError from "../notfications/Error";
+
 interface Props {
     name: string;
     placeholder: string;
     label: string;
-    filed: any;
+    field: any;
     form: any;
 }
 
 
 const TextaereaMovieDescription: React.FC<Props> = ({
-    name, label, placeholder
-
+    label, placeholder,
+    field, form
 }) => {
+
+    const { value, name, onChange, onBlur } = field;
+    const { errors, touched } = form;
+    const showError = errors[name] && touched[name];
+
     return (
         <div>
             <label htmlFor="" className="text-text font-medium">{label}</label>
             <textarea
+                {...field}
                 placeholder={placeholder}
                 className="p-4 border border-border mt-2 text-white rounded bg-color_main w-full h-[160px]"
-                name=""
-                id=""
+                id={name}
             ></textarea>
+            <InlineError text={showError && errors[name]} />
         </div>
     );
 };

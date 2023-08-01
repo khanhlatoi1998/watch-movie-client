@@ -32,8 +32,8 @@ const MoviesTemplate = () => {
                     {
                         formikProps => {
                             return (
-                                <Form className="bg-color_02 p-6 rounded-lg border border-solid border-border_02 mt-6 grid lg:grid-cols-5 sm:grid-cols-2 grid-cols-1 justify-center lg::gap-8 gap-4 text-xs flex-wrap">
-                                    <div className="bg-color_main border border-solid border-border_02 rounded flex-1">
+                                <Form className="bg-color_02 p-6 pb-2 rounded-lg border border-solid border-border_02 mt-6 grid lg:grid-cols-5 sm:grid-cols-2 grid-cols-1 justify-center lg::gap-8 gap-4 text-xs flex-wrap">
+                                    <div className="">
                                         <FastField
                                             name="category"
                                             component={SelectField}
@@ -42,7 +42,7 @@ const MoviesTemplate = () => {
                                         >
                                         </FastField>
                                     </div>
-                                    <div className="bg-color_main border border-solid border-border_02 rounded flex-1">
+                                    <div className="">
                                         <FastField
                                             name="category"
                                             component={SelectField}
@@ -51,7 +51,7 @@ const MoviesTemplate = () => {
                                         >
                                         </FastField>
                                     </div>
-                                    <div className="bg-color_main border border-solid border-border_02 rounded flex-1">
+                                    <div className="">
                                         <FastField
                                             name="category"
                                             component={SelectField}
@@ -60,7 +60,7 @@ const MoviesTemplate = () => {
                                         >
                                         </FastField>
                                     </div>
-                                    <div className="bg-color_main border border-solid border-border_02 rounded flex-1">
+                                    <div className="">
                                         <FastField
                                             name="category"
                                             component={SelectField}
@@ -69,7 +69,7 @@ const MoviesTemplate = () => {
                                         >
                                         </FastField>
                                     </div>
-                                    <div className="bg-color_main border border-solid border-border_02 rounded flex-1">
+                                    <div className="">
                                         <FastField
                                             name="category"
                                             component={SelectField}
