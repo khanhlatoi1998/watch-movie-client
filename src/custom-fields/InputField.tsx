@@ -20,7 +20,6 @@ const InputField: React.FC<Props> = ({
     const { errors, touched } = form;
     const showError = errors[name] && touched[name];
 
-
     return (
         <div className="mb-[-23px]">
             <label htmlFor={name} className="text-text font-medium">{label}</label>

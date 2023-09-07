@@ -5,19 +5,21 @@ interface Props {
     field: any;
     accept: string;
     type: string;
+    handleVideo: Function;
 }
 
 
-const InputFileVideoField: React.FC<Props> = ({
+const InputVideoField: React.FC<Props> = ({
     form, field,
-    type, accept,
+    type, accept, handleVideo
 }) => {
 
     const { name, value, onChange, onBlur } = field;
     const {errors, touched} = form;
     const showError = errors[name] && touched[name];
-    const onChangeFile = (e: any) => {
 
+    const onChangeFile = (e: any) => {
+        handleVideo(e);
         form.setFieldValue(name, e.target.files[0]);
     };
 
@@ -38,4 +40,4 @@ const InputFileVideoField: React.FC<Props> = ({
     );
 };
 
-export default InputFileVideoField;
+export default InputVideoField;

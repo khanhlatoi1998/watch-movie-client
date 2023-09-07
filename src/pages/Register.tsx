@@ -28,7 +28,11 @@ const Register = () => {
                 setIsLoading(false);
                 toast.success('Sign up success');
                 dispatch(saveUserInfo(res));
-                navigate('/profile')
+                if (res.isAdmin) {
+                    navigate('/profile/dashboard');
+                } else {
+                    navigate('/profile/update-profile')
+                }
             })
             .catch(err => {
                 toast.error(err.response.data.message);

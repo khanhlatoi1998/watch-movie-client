@@ -27,10 +27,10 @@ const AddMovieValidation = yup.object().shape({
     year: yup.string().required('Year is required'),
     imageWithTitle: yup.string().required('Image With Title is required'),
     imageWithThumbnail: yup.string().required('Image With Thumbnail is required'),
-    movieDescription: yup.string().required('Movie Description is required'),
+    // movieDescription: yup.string().required('Movie Description is required'),
     movieCategory: yup.string().required('Movie Category is required'),
-    movieVideo: yup.string().required('Movie Video is required'),
-    casts: yup.array().nullable(),
+    video: yup.string().required('Movie Video is required'),
+    casts: yup.array().required('Cast is required'),
 })
 
 export {

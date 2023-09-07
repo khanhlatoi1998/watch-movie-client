@@ -29,6 +29,7 @@ const userServices = {
             "Content-Type": ["multipart/form-data", "boundary=something"]
         }
         const data = await axiosClient.put(url, user, { headers });
+        console.log('updateProfile ======', user)
         if (data) {
             localStorage.removeItem('userInfo');
             localStorage.setItem('userInfo', JSON.stringify(data));
@@ -44,7 +45,26 @@ const userServices = {
         }
         const data = await axiosClient.put(url, { user }, { headers });
         return data;
-    }
+    },
+    getFavoriteMovies: async (token: any) => {
+        const url = '/users/favorites';
+        const headers = {
+            "Authorization": `Bearer ${token}`,
+        }
+        const data = await axiosClient.get(url, { headers });
+        if (data) {
+            localStorage.setItem('favorites', JSON.stringify(data));
+        }
+        return data;
+    },
+    deleteFavoriteMovies: async (token: any) => {
+        const url = '/users/favorites';
+        const headers = {
+            "Authorization": `Bearer ${token}`,
+        }
+        const data = await axiosClient.delete(url, { headers });
+        return data;
+    },
 }
 
 export default userServices;

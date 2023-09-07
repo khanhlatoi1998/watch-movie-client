@@ -6,6 +6,7 @@ import { useRef, useState } from "react";
 import userServices from "../../api/userServices";
 import InputFileField from "../../custom-fields/InputFileField";
 import { updateUsreInfo } from "../../redux/sliceUserInfo";
+import { toast } from "react-hot-toast";
 
 interface UpdateProfileType {
     fullName: string;
@@ -34,8 +35,9 @@ const UpdateProfile = () => {
         userServices.updateProfileService(formData)
             .then((res: any) => {
                 disPatch(updateUsreInfo(res));
+                toast.success('Updateprofile success!')
             })
-            .catch(err => { })
+            .catch(err => { toast.error(err.message) })
     };
 
     const handleInputImage = (e: any) => {
