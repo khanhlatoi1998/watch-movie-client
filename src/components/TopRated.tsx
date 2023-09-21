@@ -4,8 +4,19 @@ import ItemTopRated from "./ItemTopRated";
 import { SwiperSlide, Swiper, useSwiper } from "swiper/react";
 import { useRef, useState } from "react";
 import { listMoves } from "../data";
+import movieServices from "../api/movieServices";
+import { useQuery } from "@tanstack/react-query";
 
 const TopRate = () => {
+
+    const { data, isLoading } = useQuery({
+        queryKey: ['moviesServices'],
+        queryFn: () => movieServices.getPopularMovie(),
+        // staleTime: 1000
+        keepPreviousData: true
+    });
+
+    console.log('TopRate', data)
 
     return (
         <section className="top-rated bg-color_main lg:pt-12 pt-8 pb-[70px]">
@@ -46,7 +57,7 @@ const TopRate = () => {
                         modules={[Pagination, Navigation, Autoplay, A11y]}
                     >
                         {
-                            listMoves.map((movie: MovieType, idx: number) => {
+                            data?.map((movie: MovieType, idx: number) => {
                                 return (
                                     <SwiperSlide key={idx}>
                                         <ItemTopRated movie={movie} />

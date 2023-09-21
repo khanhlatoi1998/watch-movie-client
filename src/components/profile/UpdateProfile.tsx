@@ -7,30 +7,35 @@ import userServices from "../../api/userServices";
 import InputFileField from "../../custom-fields/InputFileField";
 import { updateUsreInfo } from "../../redux/sliceUserInfo";
 import { toast } from "react-hot-toast";
+import uploadAPI from "../../api/uploadAPI";
+import Loader from "../Loader";
 
 interface UpdateProfileType {
     fullName: string;
     email: string;
-    file: any
 }
 
 const UpdateProfile = () => {
     const userInfo = useSelector((state: any) => state.userInfo);
-    const refImageUserInfo = useRef(null);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const refImageUserInfo = useRef<any>(null);
     const disPatch = useDispatch();
     const [initialValues, setInitialValues] = useState<any>({
         _id: userInfo._id,
+        token: userInfo.token,
         fullName: userInfo.fullName,
         email: userInfo.email,
         image: userInfo.image,
-        token: userInfo.token,
-        file: ""
     });
 
     const onSubmit = (values: any) => {
+        const newValues = {
+            ...values,
+            image: refImageUserInfo.current.src
+        }
         const formData = new FormData();
-        for (let key in values) {
-            formData.append(key, values[key])
+        for (let key in newValues) {
+            formData.append(key, newValues[key])
         }
         userServices.updateProfileService(formData)
             .then((res: any) => {
@@ -40,19 +45,21 @@ const UpdateProfile = () => {
             .catch(err => { toast.error(err.message) })
     };
 
-    const handleInputImage = (e: any) => {
+    const handleInputImage = (elInput: any) => {
         // let image: any = '';
-        const file = e.target.files[0];
+        setIsLoading(true);
+        const file = elInput.target.files[0];
         const fileReader = new FileReader();
         fileReader.readAsDataURL(file);
         fileReader.addEventListener('load', (e: any) => {
-            const ref: any = refImageUserInfo;
-            ref.current.src = e.target.result;
-            // image = fileReader.result;
-            // setInitialValues({
-            //     ...initialValues,
-            //     file: file
-            // })
+            uploadAPI.uploadFileImage(file)
+                .then((res) => {
+                    setIsLoading(false);
+                    refImageUserInfo.current.src = res;
+                })
+                .catch(err => {
+                    setIsLoading(false);
+                })
         })
     };
 
@@ -81,11 +88,21 @@ const UpdateProfile = () => {
                                             >
                                             </FastField>
                                             {/* <input type="file" onChange={handleInputImage} className="hidden" name="upload-file" accept="image/*" id="upload-file" /> */}
-                                            <span>
-                                                <i className="text-color_01 fa-solid fa-arrow-up-from-bracket text-2xl"></i>
-                                            </span>
-                                            <p className="text-sm mt-2">Drag your image here</p>
-                                            <em className="text-xs text-border">only .jpg and .png files will be accepted</em>
+                                            {
+                                                !isLoading ? (
+                                                    <div>
+                                                        <span>
+                                                            <i className="text-color_01 fa-solid fa-arrow-up-from-bracket text-2xl"></i>
+                                                        </span>
+                                                        <p className="text-sm mt-2">Drag your image here</p>
+                                                        <em className="text-xs text-border">only .jpg and .png files will be accepted</em>
+                                                    </div>
+                                                ) : (
+                                                    <div className="min-h-[77px] flex justify-center items-center">
+                                                        <Loader loading={isLoading} />
+                                                    </div>
+                                                )
+                                            }
                                         </div>
                                     </label>
                                     <div className="col-span-2">
@@ -97,28 +114,26 @@ const UpdateProfile = () => {
                                 <FastField
                                     name="fullName"
                                     label="Full Name"
-                                    // value="se"
                                     component={InputField}
                                 >
                                 </FastField>
                                 <FastField
                                     name="email"
                                     label="Email"
-                                    // value="va"
                                     component={InputField}
                                 >
                                 </FastField>
-
                                 <div className="flex gap-2 flex-wrap flex-col-reverse font-medium sm:flex-row justify-between items-center my-4">
                                     <button className="rounded py-3 px-6 font-medium bg-color_01 w-full sm:w-auto hover:border borer-solid border-color_01 hover:bg-color_main">Delete Account</button>
-                                    <button type="submit" className="rounded py-3 px-6 font-medium bg-color_main w-full sm:w-auto border borde-solid border-color_01 hover:bg-color_01">Upload Profile</button>
+                                    <button type="submit" className="rounded py-3 px-6 font-medium bg-color_main w-full sm:w-auto border borde-solid border-color_01 hover:bg-color_01">
+                                        Upload Profile
+                                    </button>
                                 </div>
                             </Form>
                         )
                     }
                 }
             </Formik>
-
         </div>
     );
 };

@@ -17,7 +17,8 @@ const ChangePasswordValidation = yup.object().shape({
 
 const AddCastValidation = yup.object().shape({
     nameCast: yup.string().required('Cast Name is required'),
-    fileCast: yup.string().required('Image Cast is required')
+    // fileCast: yup.string().required('Image Cast is required')
+    imgCast: yup.string().required('Image Cast is required')
 });
 
 const AddMovieValidation = yup.object().shape({
@@ -25,8 +26,8 @@ const AddMovieValidation = yup.object().shape({
     hours: yup.string().required('Hour is required'),
     language: yup.string().required('Language is required'),
     year: yup.string().required('Year is required'),
-    imageWithTitle: yup.string().required('Image With Title is required'),
-    imageWithThumbnail: yup.string().required('Image With Thumbnail is required'),
+    imageWithTitleValue: yup.string().required('Image With Title is required'),
+    imageWithThumbnailValue: yup.string().required('Image With Thumbnail is required'),
     // movieDescription: yup.string().required('Movie Description is required'),
     movieCategory: yup.string().required('Movie Category is required'),
     video: yup.string().required('Movie Video is required'),

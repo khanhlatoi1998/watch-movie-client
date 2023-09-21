@@ -1,6 +1,6 @@
 import { MovieType } from "./constants/type/inex";
 
-export const listMoves: Array<MovieType> = [
+export const listMoves: Array<any> = [
     {
         link: "123",
         img: "https://wallpapers.com/images/high/80s-anime-aesthetic-9ccu0shhc4bhuwav.webp",

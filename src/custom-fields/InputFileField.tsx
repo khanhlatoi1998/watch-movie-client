@@ -19,7 +19,7 @@ const InputFileField: React.FC<Props> = ({
     const showError = errors[name] && touched[name];
     const onChangeFile = (e: any) => {
         handleInputImage(e);
-        form.setFieldValue(name, e.target.files[0]);
+        // form.setFieldValue(name, e.target.files[0]);
     };
 
     return (

@@ -1,21 +1,36 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import RatingStar from "../components/RatingStar";
 import Cast from "../components/Cast";
 import Reviews from "../components/Reviews";
 import Related from "../components/Related";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Mousewheel, Pagination } from "swiper";
+import { useQuery } from "@tanstack/react-query";
+import movieServices from "../api/movieServices";
+import { AddCastType } from "../constants/type/inex";
+import { useState } from "react";
 
 const Detail = () => {
-    const a = [1, 3, 4];
+    const [openMovie, setOpenMovie] = useState<boolean>(false);
+    let { id } = useParams();
+
+    const { data, isLoading } = useQuery({
+        queryKey: ['detailMovie'],
+        queryFn: () => movieServices.getMovieById(id),
+        // staleTime: 1000
+        keepPreviousData: true
+    });
+
+    console.log('Detail', data)
+
     return (
         <section className="pt-[103px] bg-color_main">
             <div className="w-full xl:h-screen relative text-white">
-                <img className="w-full hidden xl:inline-block h-full object-cover" src="https://firebasestorage.googleapis.com/v0/b/netflixo-minah.appspot.com/o/dd8a26a1-9a18-4149-b0ff-a86cb40b8aa6.jpeg?alt=media" alt="" />
+                <img className="w-full hidden xl:inline-block h-full object-cover" src={data?.imageWithTitleValue} alt="" />
                 <div className="xl:bg-color_main bg-color_02 flex justify-center items-center xl:bg-opacity-90 xl:absolute top-0 left-0 right-0 bottom-0">
                     <div className="container px-3 mx-auto 2xl:px-24 xl:grid grid-cols-3 flex-wrap flex justify-center items-center py-10 lg:py-20 gap-8">
                         <div className="xl:col-span-1 w-full xl:order-none order-last set-h bg-color_02 border border-gray-800 rounded-lg overflow-hidden">
-                            <img src="https://firebasestorage.googleapis.com/v0/b/netflixo-minah.appspot.com/o/bd92322f-9b2f-4a30-8284-dea0a98c8798.jpg?alt=media" alt="The Beast" className="w-full h-full object-cover" />
+                            <img src={data?.imageWithThumbnailValue} alt="The Beast" className="w-full h-full object-cover" />
                         </div>
                         <div className="col-span-2 md:grid grid-cols-6 gap-4 items-center">
                             <div className="col-span-4 flex flex-col gap-10">
@@ -48,8 +63,11 @@ const Detail = () => {
                                         <span>
                                             <i className="fa-solid fa-play text-white"></i>
                                         </span>
-                                        <span>Watch</span>
+                                        <span onClick={() => setOpenMovie(true)}>Watch</span>
                                     </NavLink>
+                                    <div className="bg-black fixed top-0 left-0 right-0 bottom-0 p-12 flex justify-center items-center flex-col z-[999]">
+                                        <video src={data?.video} className="max-w-full max-h-full" controls></video>
+                                    </div>
                                 </div>
                                 <div className="text-yellow-500 mb-6 flex items-center gap-2 text-lg">
                                     <RatingStar rate={4} />
@@ -94,11 +112,10 @@ const Detail = () => {
                         className="mt-8"
                     >
                         {
-                            a.map((cast, idx) => {
+                            data?.casts.map((cast: AddCastType, idx: number) => {
                                 return (
                                     <SwiperSlide key={idx}>
-                                        <Cast />
-
+                                        <Cast cast={cast} />
                                     </SwiperSlide>
                                 )
                             })

@@ -11,33 +11,31 @@ import InputVideoField from "../../custom-fields/InputVideoField";
 import { useSelector } from "react-redux";
 import movieServices from "../../api/movieServices";
 import InlineError from "../../notfications/Error";
+import Loader from "../Loader";
+import uploadAPI from "../../api/uploadAPI";
+import { MovieType } from "../../constants/type/inex";
 
 interface AddCastType {
     nameCast: string;
     imgCast?: any;
-    fileCast: any;
 };
 
-interface AddMovieType {
-    movieTitle: string;
-    hours: number,
-    language: string;
-    year: number;
-    imageWithTitle: any,
-    imageWithThumbnail: any;
-    movieVideo: any;
-    casts: AddCastType[];
-};
+
 
 const AddMovieProfile = () => {
+    const [isLoadingCast, setIsLoadingCast] = useState<boolean>(false);
+    const [isLoadingImageWithTitle, setIsLoadingImageWithTitle] = useState<boolean>(false);
+    const [isLoadinImageWithThumbnail, setIsLoadinImageWithThumbnail] = useState<boolean>(false);
+    const [isLoadingAddMovie, setIsLoadingAddMovie] = useState<boolean>(false);
     const refImageWithTitle = useRef<any>(null);
     const refImageWithThumbnail = useRef<any>(null);
     const refImageCast = useRef<any>(null);
     const refVideo = useRef<any>(null);
+    const refInputCast = useRef<any>(null);
     const [openPopupAddCast, setOpenPopupAddCast] = useState<boolean>(false);
     const [casts, setCasts] = useState<AddCastType[]>([]);
     const userInfo = useSelector((state: any) => state.userInfo);
-    const [initialValuesAddMovie, setInitialValuesAddMovie] = useState<any>({
+    const [initialValuesAddMovie, setInitialValuesAddMovie] = useState<MovieType>({
         movieTitle: '',
         hours: '',
         language: '',
@@ -47,75 +45,78 @@ const AddMovieProfile = () => {
         casts: '',
         rate: 0,
         numberOfReviews: 0,
-        imageWithTitle: '',
-        imageWithThumbnail: '',
+        imageWithTitleValue: '',
+        imageWithThumbnailValue: '',
         video: '',
+        reviews: []
     })
 
-    const initialValuesAddCast: AddCastType = {
+    const [initialValuesAddCast, setInitialValuesAddCast] = useState<AddCastType>({
         nameCast: '',
         imgCast: '',
-        fileCast: ''
-    }
+    })
 
-    const handleInputImage = (e: any, refImage: any) => {
-        // let image: any = '';
-        const file = e.target.files[0];
+    const handleInputImage = (elInput: any, refImage: any, formikProp?: any, setIsLoading?: any) => {
+        setIsLoading(true);
+        const nameInputValue = elInput.target.parentElement.querySelectorAll('input')[1].name;
+        const file = elInput.target.files[0];
         const fileReader = new FileReader();
         fileReader.readAsDataURL(file);
         fileReader.addEventListener('load', (e: any) => {
-            const ref: any = refImage;
-            ref.current.src = e.target.result;
-            // image = fileReader.result;
-            // setInitialValues({
-            //     ...initialValues,
-            //     file: file
-            // })
+            uploadAPI.uploadFileImage(file)
+                .then((res) => {
+                    setIsLoading(false);
+                    refImage.current.src = e.target.result;
+                    formikProp.getFieldHelpers(nameInputValue).setValue(res)
+                })
+                .catch(err => { setIsLoading(false) })
         })
     };
 
-    const handleVideo = (e: any, refVideo: any) => {
-        const videoURL: any = URL.createObjectURL(e.target.files[0]);
+    const handleVideo = (e: any, refVideo: any, formikProp: any) => {
+        const file = e.target.files[0];
+        const videoURL: any = URL.createObjectURL(file);
         refVideo.current.src = videoURL;
+        formikProp.getFieldHelpers('video').setValue(file)
     };
 
     const onSubmitAddCast = (formikPropAddMovie: any, values: AddCastType) => {
         setOpenPopupAddCast(false);
-
         const newValue = {
             ...values,
-            imgCast: refImageCast?.current?.src
+            imgCast: refInputCast?.current?.value
         }
         casts.push(newValue);
         setInitialValuesAddMovie({
             ...initialValuesAddMovie,
             casts: casts
         });
-
-        console.log(formikPropAddMovie)
-        // console.log(formikPropAddMovie.getFieldProps('casts'))
         formikPropAddMovie.getFieldHelpers('casts').setValue(casts);
     }
 
-    const onSubmitAddMovie = (values: any) => {
+    const onSubmitAddMovie = async (values: any) => {
         console.log('uploading')
-        const newValues = {
+        setIsLoadingAddMovie(true);
+        const newValues = await {
             ...values,
-            casts: casts,
+            casts: JSON.stringify(casts),
             token: userInfo.token
         }
-        console.log(newValues)
         const formData = new FormData();
         for (let key in newValues) {
             formData.append(key, newValues[key])
         }
-        console.log('formData ============ ', formData)
         movieServices.createMovie(formData)
             .then((res: any) => {
-
+                console.log(res)
+                setIsLoadingAddMovie(false);
             })
-            .catch(err => { })
+            .catch(err => { setIsLoadingAddMovie(false); })
     };
+
+    const closeVideo = (formikProp: any) => {
+        formikProp.getFieldHelpers('video').setValue('');
+    }
 
     return (
         <div>
@@ -163,7 +164,6 @@ const AddMovieProfile = () => {
                                                 placeholder="2023"
                                                 component={InputField}
                                             >
-
                                             </FastField>
                                             <div className="">
                                                 <p className="text-text font-medium">Image with Title</p>
@@ -174,15 +174,46 @@ const AddMovieProfile = () => {
                                                             type="file"
                                                             accept="image/*"
                                                             component={InputFileField}
-                                                            handleInputImage={(e: any) => handleInputImage(e, refImageWithTitle)}
+                                                            handleInputImage={(e: any) => handleInputImage(e, refImageWithTitle, formikPropAddMovie, setIsLoadingImageWithTitle)}
                                                         >
                                                         </FastField>
-                                                        {/* <input type="file" onChange={handleInputImage} className="hidden" name="upload-file" accept="image/*" id="upload-file" /> */}
-                                                        <span>
-                                                            <i className="text-color_01 fa-solid fa-arrow-up-from-bracket text-2xl"></i>
-                                                        </span>
-                                                        <p className="text-sm mt-2">Drag your image here</p>
-                                                        <em className="text-xs text-border">only .jpg and .png files will be accepted</em>
+                                                        {
+                                                            !isLoadingImageWithTitle ? (
+                                                                <div>
+                                                                    <span>
+                                                                        <i className="text-color_01 fa-solid fa-arrow-up-from-bracket text-2xl"></i>
+                                                                    </span>
+                                                                    <p className="text-sm mt-2">Drag your image here</p>
+                                                                    <em className="text-xs text-border">only .jpg and .png files will be accepted</em>
+                                                                </div>
+                                                            ) : (
+                                                                <div className="min-h-[70px] flex justify-center items-center">
+                                                                    <Loader loading={isLoadingImageWithTitle} />
+                                                                </div>
+                                                            )
+                                                        }
+                                                        <FastField
+                                                            name="imageWithTitleValue"
+                                                            component={(fieldProps: any) => {
+                                                                const { field, form } = fieldProps;
+                                                                const { name, value, onChange, onBlur } = field;
+                                                                const { errors, touched } = form;
+                                                                const showError = errors[name] && touched[name];
+                                                                return (
+                                                                    <div>
+                                                                        <input
+                                                                            ref={refInputCast}
+                                                                            name={name}
+                                                                            {...field}
+                                                                            id={name}
+                                                                            className="hidden"
+                                                                        />
+                                                                        <InlineError text={showError && errors[name]} />
+                                                                    </div>
+                                                                )
+                                                            }}
+                                                        >
+                                                        </FastField>
                                                     </div>
                                                 </label>
                                                 <figure className="w-32 mt-4 h-32 p-2 bg-color_main border-solid border border-border rounded">
@@ -198,15 +229,46 @@ const AddMovieProfile = () => {
                                                             type="file"
                                                             accept="image/*"
                                                             component={InputFileField}
-                                                            handleInputImage={(e: any) => handleInputImage(e, refImageWithThumbnail)}
+                                                            handleInputImage={(e: any) => handleInputImage(e, refImageWithThumbnail, formikPropAddMovie, setIsLoadinImageWithThumbnail)}
                                                         >
                                                         </FastField>
-                                                        {/* <input type="file" onChange={handleInputImage} className="hidden" name="upload-file" accept="image/*" id="upload-file" /> */}
-                                                        <span>
-                                                            <i className="text-color_01 fa-solid fa-arrow-up-from-bracket text-2xl"></i>
-                                                        </span>
-                                                        <p className="text-sm mt-2">Drag your image here</p>
-                                                        <em className="text-xs text-border">only .jpg and .png files will be accepted</em>
+                                                        {
+                                                            !isLoadinImageWithThumbnail ? (
+                                                                <div>
+                                                                    <span>
+                                                                        <i className="text-color_01 fa-solid fa-arrow-up-from-bracket text-2xl"></i>
+                                                                    </span>
+                                                                    <p className="text-sm mt-2">Drag your image here</p>
+                                                                    <em className="text-xs text-border">only .jpg and .png files will be accepted</em>
+                                                                </div>
+                                                            ) : (
+                                                                <div className="min-h-[70px] flex justify-center items-center">
+                                                                    <Loader loading={isLoadinImageWithThumbnail} />
+                                                                </div>
+                                                            )
+                                                        }
+                                                        <FastField
+                                                            name="imageWithThumbnailValue"
+                                                            component={(fieldProps: any) => {
+                                                                const { field, form } = fieldProps;
+                                                                const { name, value, onChange, onBlur } = field;
+                                                                const { errors, touched } = form;
+                                                                const showError = errors[name] && touched[name];
+                                                                return (
+                                                                    <div>
+                                                                        <input
+                                                                            ref={refInputCast}
+                                                                            name={name}
+                                                                            {...field}
+                                                                            id={name}
+                                                                            className="hidden"
+                                                                        />
+                                                                        <InlineError text={showError && errors[name]} />
+                                                                    </div>
+                                                                )
+                                                            }}
+                                                        >
+                                                        </FastField>
                                                     </div>
                                                 </label>
                                                 <figure className="w-32 mt-4 h-32 p-2 bg-color_main border-solid border border-border rounded">
@@ -244,11 +306,10 @@ const AddMovieProfile = () => {
                                                         name="video"
                                                         type="file"
                                                         accept="video/*"
-                                                        handleVideo={(e: any) => handleVideo(e, refVideo)}
+                                                        handleVideo={(e: any) => handleVideo(e, refVideo, formikPropAddMovie)}
                                                         component={InputVideoField}
                                                     >
                                                     </FastField>
-                                                    {/* <input type="file" onChange={handleInputImage} className="hidden" name="upload-file" accept="image/*" id="upload-file" /> */}
                                                     <span>
                                                         <i className="text-color_01 fa-solid fa-arrow-up-from-bracket text-2xl"></i>
                                                     </span>
@@ -257,12 +318,10 @@ const AddMovieProfile = () => {
                                                 </div>
                                             </label>
                                         </div>
-                                        <div className="flex gap-4">
-                                            <video id="video-element" ref={refVideo} src="" controls className="max-w-[95%] max-h-[500px]">
-
-                                            </video>
+                                        <div className={`${formikPropAddMovie.values.video ? 'flex gap-4' : 'hidden gap-4'}`}>
+                                            <video id="video-element" ref={refVideo} src="" controls className="max-w-[95%] max-h-[500px]"></video>
                                             <div>
-                                                <i className="fa-solid fa-xmark"></i>
+                                                <i onClick={() => closeVideo(formikPropAddMovie)} className="fa-solid fa-xmark p-2 cursor-pointer"></i>
                                             </div>
                                         </div>
                                         <div className="grid md:grid-cols-2 gap-6  items-start">
@@ -303,7 +362,7 @@ const AddMovieProfile = () => {
                                                     return (
                                                         <div>
                                                             <input
-                                                                
+
                                                                 name={name}
                                                                 {...field}
                                                                 id={name}
@@ -316,17 +375,28 @@ const AddMovieProfile = () => {
                                             >
                                             </FastField>
                                         </div>
-                                        <button type="submit" className="py-3 rounded bg-color_01 text-center font-bold w-full">
-                                            Publish Movie
+                                        <button type="submit" className="py-3 rounded bg-color_01 text-center font-bold w-full" disabled={isLoadingAddMovie}>
+                                            {
+                                                !isLoadingAddMovie ? ('Publish Movie') : ('Uploading...')
+                                            }
                                         </button>
+                                        {
+                                            isLoadingAddMovie ? (
+                                                <div className="flex justify-center items-center">
+                                                    <Loader loading={isLoadingAddMovie} />
+                                                </div>
+                                            ) : (<></>)
+                                        }
                                     </Form>
                                     <Formik
                                         initialValues={initialValuesAddCast}
                                         onSubmit={(value: any) => onSubmitAddCast(formikPropAddMovie, value)}
                                         validationSchema={AddCastValidation}
+                                        enableReinitialize={true}
+
                                     >
                                         {
-                                            formikProp => {
+                                            formikPropAddCast => {
                                                 return (
                                                     <Form>
                                                         <div onClick={(e) => setOpenPopupAddCast(false)} className={`${openPopupAddCast ? '' : 'hidden'} bg-[#00000066] fixed px-8 top-0 left-0 right-0 bottom-0 z-[900] flex justify-center items-center`}>
@@ -348,15 +418,46 @@ const AddMovieProfile = () => {
                                                                                 type="file"
                                                                                 accept="image/*"
                                                                                 component={InputFileField}
-                                                                                handleInputImage={(e: any) => handleInputImage(e, refImageCast)}
+                                                                                handleInputImage={(e: any) => handleInputImage(e, refImageCast, formikPropAddCast, setIsLoadingCast)}
                                                                             >
                                                                             </FastField>
-                                                                            {/* <input type="file" onChange={handleInputImage} className="hidden" name="upload-file" accept="image/*" id="upload-file" /> */}
-                                                                            <span>
-                                                                                <i className="text-color_01 fa-solid fa-arrow-up-from-bracket text-2xl"></i>
-                                                                            </span>
-                                                                            <p className="text-sm mt-2">Drag your image here</p>
-                                                                            <em className="text-xs text-border">only .jpg and .png files will be accepted</em>
+                                                                            {
+                                                                                !isLoadingCast ? (
+                                                                                    <div>
+                                                                                        <span>
+                                                                                            <i className="text-color_01 fa-solid fa-arrow-up-from-bracket text-2xl"></i>
+                                                                                        </span>
+                                                                                        <p className="text-sm mt-2">Drag your image here</p>
+                                                                                        <em className="text-xs text-border">only .jpg and .png files will be accepted</em>
+                                                                                    </div>
+                                                                                ) : (
+                                                                                    <div className="min-h-[75px] flex justify-center items-center">
+                                                                                        <Loader loading={isLoadingCast} />
+                                                                                    </div>
+                                                                                )
+                                                                            }
+                                                                            <FastField
+                                                                                name="imgCast"
+                                                                                component={(fieldProps: any) => {
+                                                                                    const { field, form } = fieldProps;
+                                                                                    const { name, value, onChange, onBlur } = field;
+                                                                                    const { errors, touched } = form;
+                                                                                    const showError = errors[name] && touched[name];
+                                                                                    return (
+                                                                                        <div>
+                                                                                            <input
+                                                                                                ref={refInputCast}
+                                                                                                name={name}
+                                                                                                {...field}
+                                                                                                id={name}
+                                                                                                className="hidden"
+                                                                                            />
+                                                                                            <InlineError text={showError && errors[name]} />
+                                                                                        </div>
+                                                                                    )
+                                                                                }}
+                                                                            >
+                                                                            </FastField>
                                                                         </div>
                                                                     </label>
                                                                     <figure className="w-32 mt-4 h-32 p-2 bg-color_main border-solid border border-border rounded">

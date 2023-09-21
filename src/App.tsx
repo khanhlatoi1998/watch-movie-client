@@ -7,7 +7,6 @@ import { useQuery } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from "@hookform/resolvers/yup";
 import { LoginValidation } from './validation/UserValidation';
-import InputLogin from './custom-field/InputLogin';
 import InlineError from './notfications/Error';
 import HomePage from './pages/HomePage';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
@@ -28,18 +27,6 @@ function App() {
     //     // staleTime: 1000
     //     keepPreviousData: true
     // });
-
-    // const {
-    //     register,
-    //     handleSubmit,
-    //     formState: { errors }
-    // } = useForm({
-    //     resolver: yupResolver(LoginValidation)
-    // })
-
-    // const onSubmit = (data: any) => {
-    //     console.log(data)
-    // }
 
     const HomePage = React.lazy(() => import('./pages/HomePage'));
 

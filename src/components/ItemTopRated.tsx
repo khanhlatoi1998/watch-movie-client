@@ -8,22 +8,20 @@ interface Props {
 
 const ItemTopRated: React.FC<Props> = ({
     movie: {
-        link,
-        img,
-        thumbnail,
-        name,
-        userId,
-        desc,
-        category,
+        _id,
+        movieTitle,
+        hours,
         language,
         year,
-        time,
-        video,
+        movieDescription,
+        movieCategory,
+        casts,
         rate,
         numberOfReviews,
-        // reviews: [reviewSchema],
-        // reviews: [],
-        casts
+        imageWithTitleValue,
+        imageWithThumbnailValue,
+        video,
+        reviews: []
     }
 }) => {
     const ratingStar = Array.from({ length: 5 }, (ele, idx) => {
@@ -51,19 +49,19 @@ const ItemTopRated: React.FC<Props> = ({
     return (
         <div className="group relative hover:bg-black bg-color_02 cursor-pointer border overflow-hidden border-solid border-gray-500 p-4 rounded-lg">
             <div className="relative md:pt-[123%] pt-[65%]">
-                <img src={img} alt="" className="absolute top-0 left-0 w-full h-full rounded-lg object-cover" />
+                <img src={_id} alt="" className="absolute top-0 left-0 w-full h-full rounded-lg object-cover" />
             </div>
             <div className="hidden absolute px-8 py-12 top-0 left-0 w-full h-full group-hover:flex flex-col  justify-around items-center bg-[#000000ad]" >
                 <span className="w-[41px] h-[41px] hover:bg-color_01 rounded-full transition duration-500 bg-[#ffffff59] flex items-center justify-center">
                     <i className="fa-solid fa-heart"></i>
                 </span>
-                <p className="truncate font-medium text-title lg:text-title-lg text-center w-full">{name}</p>
+                <p className="truncate font-medium text-title lg:text-title-lg text-center w-full">{movieTitle}</p>
                 <div className="text-yellow-500 flex justify-center items-center gap-1">
                     <RatingStar rate={rate} />
                 </div>
             </div>
         </div>
-    );
+    ); 
 };
 
 export default ItemTopRated;

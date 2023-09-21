@@ -8,32 +8,30 @@ interface Props {
 
 const Movie: React.FC<Props> = ({
     movie: {
-        link,
-        img,
-        thumbnail,
-        name,
-        userId,
-        desc,
-        category,
+        _id,
+        movieTitle,
+        hours,
         language,
         year,
-        time,
-        video,
+        movieDescription,
+        movieCategory,
+        casts,
         rate,
         numberOfReviews,
-        // reviews: [reviewSchema],
-        // reviews: [],
-        casts
+        imageWithTitleValue,
+        imageWithThumbnailValue,
+        video,
+        reviews
     }
 }) => {
 
 
     return (
-        <NavLink to={`detail/${link}`} className="border border-solid border-gray-500 p-1 rounded hover:scale-[0.96] cursor-pointer transition duration-300">
+        <NavLink to={`detail/${_id}`} className="border border-solid border-gray-500 p-1 rounded hover:scale-[0.96] cursor-pointer transition duration-300">
             <div className="relative pt-[83%]">
-                <img src={img} alt="" className="absolute top-0 left-0 w-full h-full object-cover" />
+                <img src={imageWithTitleValue} alt="" className="absolute top-0 left-0 w-full h-full object-cover" />
                 <div className="absolute bottom-0 left-0 flex justify-between items-center gap-2 bg-[#00000070] w-full px-4 py-3" >
-                    <p className="truncate font-medium text-title lg:text-title-lg">{name}</p>
+                    <p className="truncate font-medium text-title lg:text-title-lg">{movieTitle}</p>
                     <span className="bg-color_01 hover:bg-transparent outline outline-2 outline-[#F20000] rounded px-2 py-1">
                         <i className="fa-solid fa-heart"></i>
                     </span>
