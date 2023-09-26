@@ -65,6 +65,14 @@ const userServices = {
         const data = await axiosClient.delete(url, { headers });
         return data;
     },
+    getAllUser: async (token: any) => {
+        const url = '/users';
+        const headers = {
+            "Authorization": `Bearer ${token}`,
+        }
+        const data: any = await axiosClient.get(url, { headers });
+        return data;
+    }
 }
 
 export default userServices;

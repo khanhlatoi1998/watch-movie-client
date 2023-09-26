@@ -33,10 +33,16 @@ const UpdateProfileValidation = yup.object().shape({
     file: yup.mixed().nullable()
 });
 
+const ReviewsValidation = yup.object().shape({
+    rating: yup.string().required('Rating is requied').trim(),
+    message: yup.string().required('Message is requied'),
+});
+
 
  
 export {
     LoginValidation, 
     ResgisterValidation,
-    UpdateProfileValidation
+    UpdateProfileValidation,
+    ReviewsValidation
 }

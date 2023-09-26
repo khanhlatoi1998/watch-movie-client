@@ -86,8 +86,8 @@ export interface MovieType {
     imageWithThumbnailValue: string;
     video: any;
     rate: number;
-    numberOfReviews: number;
+    numberOfReviews?: number;
     casts?: AddCastType[] | any;
-    reviews: any;
+    reviews?: any;
 };
 

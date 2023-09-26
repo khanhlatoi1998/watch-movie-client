@@ -1,27 +1,41 @@
 import Select from 'react-select';
 import RatingStar from '../components/RatingStar';
+import InlineError from '../notfications/Error';
 
 interface Props {
     name: string;
     placeholder: string;
     label: string;
     options: Array<any>;
-    filed: any;
+    field: any;
     form: any;
 }
 
 
 const SelectStarReviews: React.FC<Props> = (
-    { name, placeholder, options, label }
+    {
+        field, form,
+        placeholder, options, label
+    }
 ) => {
+    const { name, value, onChange, onBlur } = field;
+    const selectedOption = options.find((o) => o.value === value);
+    const { errors, touched } = form;
+    const showError = errors[name] && touched[name];
 
-
+    const handlSelectedOptionChange = (selectedOption: any) => {
+        let selectedValue = selectedOption ? selectedOption.value : selectedOption;
+        form.setFieldValue(name, selectedValue);
+    };
     return (
         <div className="">
             <label htmlFor="">{label}</label>
-            <div className="bg-color_main border border-solid border-border rounded mt-2">
+            <div className="bg-color_main border border-solid border-border rounded mt-2 mb-1">
                 <Select
-                    name={name} id=""
+                    id=""
+                    {...field}
+                    onChange={handlSelectedOptionChange}
+                    value={selectedOption}
                     placeholder={placeholder}
                     options={options}
                     styles={{
@@ -57,8 +71,9 @@ const SelectStarReviews: React.FC<Props> = (
                     }}
                 />
             </div>
+            <InlineError text={showError && errors[name]} />
             <div className="text-yellow-500 flex items-center gap-2 text-lg mt-4">
-                <RatingStar rate={4} />
+                <RatingStar rate={Number(value)} />
             </div>
         </div>
     );

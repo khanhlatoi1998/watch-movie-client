@@ -16,6 +16,8 @@ import React, { Suspense } from 'react';
 import Header from './components/header/Header';
 import { routes } from './routes';
 import { Toaster, toast } from 'react-hot-toast';
+import Loader from './components/Loader';
+import { useSelector } from 'react-redux';
 
 function App() {
     // const { data, isLoading } = useQuery({

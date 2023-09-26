@@ -1,6 +1,12 @@
+import React from "react";
+import { MovieType } from "../constants/type/inex";
 import ItemMoviePrfile from "./profile/ItemMovieProfile";
 
-const TableDashboard = () => {
+interface Props {
+    movies: MovieType[];
+}
+
+const TableDashboard: React.FC<Props> = ({movies}) => {
     return (
         <div className="flex flex-col gap-6 mt-4">
             <div className="overflow-scroll overflow-hidden relative w-full max-h-[600px]">
@@ -17,14 +23,13 @@ const TableDashboard = () => {
                         </tr>
                     </thead>
                     <tbody className="bg-color_main divide-y divide-gray-800">
-                        <ItemMoviePrfile />
-                        <ItemMoviePrfile />
-                        <ItemMoviePrfile />
-                        <ItemMoviePrfile />
-                        <ItemMoviePrfile />
-                        <ItemMoviePrfile />
-                        <ItemMoviePrfile />
-                        <ItemMoviePrfile />
+                        {
+                            movies?.map((movie: MovieType, idx: number) => {
+                                return (
+                                    <ItemMoviePrfile key={movie._id} movie={movie} />
+                                )
+                            })
+                        }
                     </tbody>
                 </table>
             </div>

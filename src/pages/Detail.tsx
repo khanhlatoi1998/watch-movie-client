@@ -1,4 +1,4 @@
-import { NavLink, useParams } from "react-router-dom";
+import { Link, NavLink, useParams } from "react-router-dom";
 import RatingStar from "../components/RatingStar";
 import Cast from "../components/Cast";
 import Reviews from "../components/Reviews";
@@ -9,6 +9,7 @@ import { useQuery } from "@tanstack/react-query";
 import movieServices from "../api/movieServices";
 import { AddCastType } from "../constants/type/inex";
 import { useState } from "react";
+import TopRate from "../components/TopRated";
 
 const Detail = () => {
     const [openMovie, setOpenMovie] = useState<boolean>(false);
@@ -17,11 +18,11 @@ const Detail = () => {
     const { data, isLoading } = useQuery({
         queryKey: ['detailMovie'],
         queryFn: () => movieServices.getMovieById(id),
-        // staleTime: 1000
+        staleTime: 1000,
         keepPreviousData: true
     });
 
-    console.log('Detail', data)
+
 
     return (
         <section className="pt-[103px] bg-color_main">
@@ -30,11 +31,11 @@ const Detail = () => {
                 <div className="xl:bg-color_main bg-color_02 flex justify-center items-center xl:bg-opacity-90 xl:absolute top-0 left-0 right-0 bottom-0">
                     <div className="container px-3 mx-auto 2xl:px-24 xl:grid grid-cols-3 flex-wrap flex justify-center items-center py-10 lg:py-20 gap-8">
                         <div className="xl:col-span-1 w-full xl:order-none order-last set-h bg-color_02 border border-gray-800 rounded-lg overflow-hidden">
-                            <img src={data?.imageWithThumbnailValue} alt="The Beast" className="w-full h-full object-cover" />
+                            <img src={data?.imageWithThumbnailValue} alt="The Beast" className="w-full h-full object-fill" />
                         </div>
                         <div className="col-span-2 md:grid grid-cols-6 gap-4 items-center">
                             <div className="col-span-4 flex flex-col gap-10">
-                                <p className="xl:text-4xl capitalize font-sans text-2xl font-bold"> The Beast</p>
+                                <p className="xl:text-4xl capitalize font-sans text-2xl font-bold">{data?.movieTitle}</p>
                                 <div className="flex items-center gap-4 font-medium text-dryGray">
                                     <div className="bg-color_01 text-xs px-2 py-1">HD 4K</div>
                                     <div className="flex items-center gap-2">
@@ -42,14 +43,14 @@ const Detail = () => {
                                     </div>
                                     <div className="flex items-center gap-2">
                                         <i className="text-xs text-color_01 fa-regular fa-calendar-days"></i>
-                                        <span className="text-sm font-medium">2027</span>
+                                        <span className="text-sm font-medium">{data?.year}</span>
                                     </div>
                                     <div className="flex items-center gap-2">
                                         <i className="text-xs text-color_01 fa-regular fa-clock"></i>
-                                        <span className="text-sm font-medium">1 Hr</span>
+                                        <span className="text-sm font-medium">{data?.hours} Hr</span>
                                     </div>
                                 </div>
-                                <p className="text-opacity_01 text-justify line-[10px] leading-7">Recently widowed Dr. Nate Daniels and his two teenage daughters travel to a South African game reserve managed by Martin Battles, an old family friend and wildlife biologist. However, what begins as a journey of healing soon turns into a fearsome fight for survival when a lion</p>
+                                <p className="text-opacity_01 text-justify line-[10px] leading-7">{data?.movieDescription}</p>
                                 <div className="border border-solid border-border_02 p-6 rounded-lg bg-color_main grid sm:grid-cols-5 grid-cols-3 gap-4">
                                     <div className="col-span-1 border-r border-border border-solid flex justify-center items-center">
                                         <button className="w-10 h-10 flex-colo rounded-lg bg-white bg-opacity-20">
@@ -59,18 +60,22 @@ const Detail = () => {
                                     <div className="col-span-2 flex justify-center items-center">
                                         Language: English
                                     </div>
-                                    <NavLink to="" className="hover:bg-color_01 sm:col-span-2 col-span-3 bg-color_02 py-3 px-12 rounded-full border-2 border-solid border-color_01 flex justify-center items-center gap-4">
+                                    <Link to={data?.video} className="hover:bg-color_01 sm:col-span-2 col-span-3 bg-color_02 py-3 px-12 rounded-full border-2 border-solid border-color_01 flex justify-center items-center gap-4">
                                         <span>
                                             <i className="fa-solid fa-play text-white"></i>
                                         </span>
-                                        <span onClick={() => setOpenMovie(true)}>Watch</span>
-                                    </NavLink>
-                                    <div className="bg-black fixed top-0 left-0 right-0 bottom-0 p-12 flex justify-center items-center flex-col z-[999]">
-                                        <video src={data?.video} className="max-w-full max-h-full" controls></video>
-                                    </div>
+                                        <span>Watch</span>
+                                    </Link>
+                                    {/* {
+                                        openMovie ? (
+                                            <div className="bg-black fixed top-0 left-0 right-0 bottom-0 p-4 flex justify-center items-center flex-col z-[999]">
+                                                <video src={data?.video} className="max-w-full max-h-full" controls></video>
+                                            </div>
+                                        ) : (<></>)
+                                    } */}
                                 </div>
                                 <div className="text-yellow-500 mb-6 flex items-center gap-2 text-lg">
-                                    <RatingStar rate={4} />
+                                    <RatingStar rate={Number(data?.rate)} />
                                 </div>
                             </div>
                             <div className="col-span-2 md:mt-0 mt-2 flex justify-end">
@@ -123,8 +128,9 @@ const Detail = () => {
 
                     </Swiper>
                 </div>
-                <Reviews />
-                <Related />
+                <Reviews reviews={data?.reviews} />
+                {/* <Related /> */}
+                <TopRate />
             </div>
         </section>
     );

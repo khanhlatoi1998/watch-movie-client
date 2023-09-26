@@ -14,6 +14,7 @@ import InlineError from "../../notfications/Error";
 import Loader from "../Loader";
 import uploadAPI from "../../api/uploadAPI";
 import { MovieType } from "../../constants/type/inex";
+import toast from "react-hot-toast";
 
 interface AddCastType {
     nameCast: string;
@@ -43,12 +44,10 @@ const AddMovieProfile = () => {
         movieDescription: '',
         movieCategory: '',
         casts: '',
-        rate: 0,
-        numberOfReviews: 0,
+        rate: 4,
         imageWithTitleValue: '',
         imageWithThumbnailValue: '',
         video: '',
-        reviews: []
     })
 
     const [initialValuesAddCast, setInitialValuesAddCast] = useState<AddCastType>({
@@ -110,8 +109,9 @@ const AddMovieProfile = () => {
             .then((res: any) => {
                 console.log(res)
                 setIsLoadingAddMovie(false);
+                toast.success('Create movie success')
             })
-            .catch(err => { setIsLoadingAddMovie(false); })
+            .catch(err => { setIsLoadingAddMovie(false); toast.error(err.response.data.message) })
     };
 
     const closeVideo = (formikProp: any) => {

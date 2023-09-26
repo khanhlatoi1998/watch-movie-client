@@ -4,11 +4,37 @@ import { STAR_REVIEWS_OPTIONS } from "../constants/global";
 import RatingStar from "./RatingStar";
 import SelectStarReviews from "../custom-fields/SelectStarReviews";
 import TextareaMessageReviews from "../custom-fields/TextareaMessageReviews";
+import { useSelector } from "react-redux";
+import { ReviewsValidation } from "../validation/UserValidation";
+import movieServices from "../api/movieServices";
+import { useParams } from "react-router-dom";
+import { useState } from "react";
+import toast from "react-hot-toast";
 
-const Reviews = () => {
-    const onSubmit = () => {
-        console.log(2)
+interface Props {
+    reviews: any;
+};
+
+const Reviews: React.FC<Props> = ({ reviews }) => {
+    const userInfo = useSelector((state: any) => state.userInfo);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const param = useParams();
+    const initialValues = {
+        rating: 4,
+        message: '',
+        id: param.id,
+        token: userInfo.token
+    }
+    const onSubmit = (values: any) => {
+        setIsLoading(true)
+        movieServices.createMovieReview(values)
+            .then((res: any) => {
+                setIsLoading(false);
+                toast.success('Movie reviewed');
+            })
+            .catch((err: any) => { toast.error(err) })
     };
+
     return (
         <div className="pt-12">
             <div className="flex items-center gap-8">
@@ -17,9 +43,10 @@ const Reviews = () => {
                 </span>
                 <p className="font-bold lg:text-title-lg text-title">Reviews</p>
             </div>
-            <div className="rounded bg-color_02 pt-12 lg:px-12 px-4 xl:grid grid-cols-5 gap-12 mt-8 text-text">
+            <div className="rounded bg-color_02 pt-12 lg:px-12 px-4 xl:grid grid-cols-5 gap-12 mt-8 pb-8 text-text">
                 <Formik
-                    initialValues={{}}
+                    initialValues={initialValues}
+                    validationSchema={ReviewsValidation}
                     onSubmit={onSubmit}
                 >
                     {
@@ -30,23 +57,30 @@ const Reviews = () => {
                                     <p className="">Write a review for this movie. It will be posted on this page. lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec</p>
                                     <FastField
                                         label="Select Rating"
-                                        name="star-reviews"
-                                        placeholder="0 -Foor"
+                                        name="rating"
+                                        placeholder={STAR_REVIEWS_OPTIONS[4].label}
                                         component={SelectStarReviews}
                                         options={STAR_REVIEWS_OPTIONS}
                                     >
                                     </FastField>
                                     <FastField
                                         label="Message"
-                                        name="message-reviews"
+                                        name="message"
                                         placeholder="Make it and sweet..."
                                         component={TextareaMessageReviews}
-                                        options={STAR_REVIEWS_OPTIONS}
                                     >
 
                                     </FastField>
-                                    <button className="w-full bg-color_main rounded p-4 text-center border-border text-color_01 border border-dotted">
-                                        Login to review this movie
+                                    <button type="submit" className="w-full text-white font-medium bg-color_01 rounded p-4 mt-[-4px] text-cente">
+                                        {
+                                            userInfo ? (
+                                                <div>
+                                                    {
+                                                        isLoading ? ('Submit...') : ('Submit')
+                                                    }
+                                                </div>)
+                                                : ('Login to review this movie')
+                                        }
                                     </button>
                                 </Form>
                             )
@@ -54,37 +88,31 @@ const Reviews = () => {
                     }
                 </Formik>
                 <div className="lg:col-span-3 mt-8 xl:mt-0 text-white">
-                    <p className="lg:text-title-lg text-title text-white font-bold">Reviews (5)</p>
+                    <p className="lg:text-title-lg text-title text-white font-bold">Reviews ({reviews?.length})</p>
                     <div className="set-h overflow-y-scroll bg-color_main md:p-12 p-6 rounded-lg mt-8 flex flex-col items-center gap-8">
                         {
-                            [1, 3, 4, 3, 4, 423, 4].map((review, idx) => {
+                            reviews?.map((review: any, idx: number) => {
                                 return (
                                     <div key={idx} className="w-full  bg-color_02 p-4 border border-solid border-border_02 rounded-lg">
                                         <div className="grid flex flex-col grid-cols-12 gap-6 ">
                                             <div className="md:col-span-2 col-span-5 bg-color_02">
-                                                <img src="https://firebasestorage.googleapis.com/v0/b/netflixo-minah.appspot.com/o/ad5ea3f2-be4a-4db4-9922-aa11efd718f4.jpg?alt=media" alt="Alex Pavlov" className="xl:w-full md:mx-auto ml-auto sm:w-24 w-16 h-16 sm:h-24 rounded-lg object-cover" />
+                                                <img src={review.userImage} />
                                             </div>
                                             <div className="md:col-span-7 col-span-7 md:justify-start justify-center md:items-start flex flex-col gap-2">
-                                                <h2>Alex Pavlov dasdasdas</h2>
-                                                <p className="hidden md:block text-xs leading-6 font-medium text-opacity_01">Mesasd asdasd asdasdad
-                                                    asdasdasd
-                                                    dadadasdadasdasd
-
-                                                    asdadd
-                                                    a
-                                                    dadadadada
-                                                    sdasda
-                                                    dad asdasd dasd asddasd asdasd asdasdasdasd asdadada asda dsage</p>
+                                                <h2>{review.userName}</h2>
+                                                <p className="hidden md:block text-xs leading-6 font-medium text-opacity_01">
+                                                    {review.message}
+                                                </p>
                                                 <div className="md:hidden flex items-center text-xs gap-1 text-yellow-500">
-                                                    <RatingStar rate={4} />
+                                                    <RatingStar rate={Number(review.rating)} />
                                                 </div>
                                             </div>
                                             <div className="col-span-3 hidden md:flex px-4 items-center justify-center border-l border-solid border-border text-xs gap-1 text-yellow-500">
-                                                <RatingStar rate={4} />
+                                                <RatingStar rate={Number(review.rating)} />
                                             </div>
                                         </div>
                                         <p className="md:hidden block mt-4 text-xs leading-6 font-medium text-opacity_01 w-full text-center md:text-left">
-                                        Mesasd asdasd asdasdad asdasdasd dadadasdadasdasd asdadd a dadadadada sdasda dad asdasd dasd asddasd asdasd asdasdasdasd asdadada asda dsage
+                                            Mesasd asdasd asdasdad asdasdasd dadadasdadasdasd asdadd a dadadadada sdasda dad asdasd dasd asddasd asdasd asdasdasdasd asdadada asda dsage
                                         </p>
                                     </div>
                                 )

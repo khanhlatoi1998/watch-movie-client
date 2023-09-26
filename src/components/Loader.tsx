@@ -1,12 +1,13 @@
 import BounceLoader from "react-spinners/BounceLoader";
-import PuffLoader  from "react-spinners/PuffLoader";
+import PuffLoader from "react-spinners/PuffLoader";
 
-const Loader: React.FC<{ loading: boolean }> = ({ loading }) => {
+const Loader: React.FC<{ loading: boolean, size?: number | string, color?: string }> = (props) => {
+    const { loading, size, color } = props;
     return (
-        <PuffLoader 
-            color="#F20000"
+        <PuffLoader
+            color={color ? color : "#F20000"}
             loading={loading}
-            size={50}
+            size={size || 50}
         />
     )
 }
