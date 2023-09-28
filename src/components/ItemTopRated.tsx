@@ -1,7 +1,7 @@
 import { MovieType } from "../constants/type/inex";
 import { BsStar, BsStarFill, BsStarHalf } from 'react-icons/bs';
 import RatingStar from "./RatingStar";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { date } from "yup";
 import userServices from "../api/userServices";
 import { useSelector } from "react-redux";
@@ -30,6 +30,7 @@ const ItemTopRated: React.FC<Props> = ({
     }
 }) => {
     const userInfo = useSelector((state: any) => state.userInfo);
+    const navigate = useNavigate();
     const ratingStar = Array.from({ length: 5 }, (ele, idx) => {
         let number: number = idx + 0.5;
         return (
@@ -54,7 +55,11 @@ const ItemTopRated: React.FC<Props> = ({
 
     const handlFavoriteMovies = (e: any) => {
         e.preventDefault();
-        userServices.addLikeMovies(userInfo.token, _id).then(res=> {console.log(res)})
+        if (userInfo) {
+            userServices.addLikeMovies(userInfo.token, _id).then(res=> {console.log(res)})
+        } else {
+            navigate('/login')
+        }
     }
 
     return (

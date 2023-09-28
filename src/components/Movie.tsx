@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { MovieType } from "../constants/type/inex";
 import userServices from "../api/userServices";
 import { useSelector } from "react-redux";
@@ -26,10 +26,15 @@ const Movie: React.FC<Props> = ({
         reviews
     }
 }) => {
+    const navigate = useNavigate();
     const userInfo = useSelector((state: any) => state.userInfo);
     const handlFavoriteMovies = (e: any) => {
         e.preventDefault();
-        userServices.addLikeMovies(userInfo.token, _id).then(res=> {console.log(res)})
+        if (userInfo) {
+            userServices.addLikeMovies(userInfo?.token, _id).then(res=> {console.log(res)})
+        } else (
+            navigate('/login')
+        )
     }
 
     return (
