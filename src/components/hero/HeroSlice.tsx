@@ -5,6 +5,8 @@ import { Mousewheel, Pagination, Autoplay } from "swiper";
 import HeroItem from "./HeroItem";
 import { HeroType } from "../../constants/type/inex";
 import { delay } from "@reduxjs/toolkit/dist/utils";
+import movieServices from "../../api/movieServices";
+import { useQuery } from "@tanstack/react-query";
 
 const HeroSlice = () => {
 
@@ -26,6 +28,15 @@ const HeroSlice = () => {
             duration: 130
         }
     ]
+
+    const { data, isLoading } = useQuery({
+        queryKey: ['moviesServices'],
+        queryFn: () => movieServices.getPopularMovies(),
+        // staleTime: 1000
+        keepPreviousData: true
+    });
+
+
     return (
         <section className="hero-slice pt-[103px] bg-color_main py-6 px-4">
             <div className="container mx-auto relative lg:pt-[25%] md:pt-[33%] pt-[48%]">
@@ -44,10 +55,10 @@ const HeroSlice = () => {
                         className="mySwiper"
                     >
                         {
-                            listHero.map((hero: HeroType, idx) => {
+                            data?.slice(0, 3).map((movie: any, idx: number) => {
                                 return (
                                     <SwiperSlide key={idx}>
-                                        <HeroItem hero={hero} />
+                                        <HeroItem movie={movie} />
                                     </SwiperSlide>
                                 )
                             })

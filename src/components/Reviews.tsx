@@ -23,7 +23,7 @@ const Reviews: React.FC<Props> = ({ reviews }) => {
         rating: 4,
         message: '',
         id: param.id,
-        token: userInfo.token
+        token: userInfo?.token
     }
     const onSubmit = (values: any) => {
         setIsLoading(true)
@@ -112,7 +112,7 @@ const Reviews: React.FC<Props> = ({ reviews }) => {
                                             </div>
                                         </div>
                                         <p className="md:hidden block mt-4 text-xs leading-6 font-medium text-opacity_01 w-full text-center md:text-left">
-                                            Mesasd asdasd asdasdad asdasdasd dadadasdadasdasd asdadd a dadadadada sdasda dad asdasd dasd asddasd asdasd asdasdasdasd asdadada asda dsage
+                                            {review.message}
                                         </p>
                                     </div>
                                 )

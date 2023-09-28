@@ -51,7 +51,19 @@ const userServices = {
         const headers = {
             "Authorization": `Bearer ${token}`,
         }
-        const data = await axiosClient.get(url, { headers });
+        const data: any = await axiosClient.get(url, { headers });
+        if (data) {
+            localStorage.setItem('favorites', JSON.stringify(data));
+        }
+        return data;
+    },
+    addLikeMovies: async (token: any, movieId: any) => {
+        const url = '/users/favorites';
+        console.log(movieId)
+        const headers = {
+            "Authorization": `Bearer ${token}`,
+        }
+        const data: any = await axiosClient.post(url, {movieId} , { headers });
         if (data) {
             localStorage.setItem('favorites', JSON.stringify(data));
         }

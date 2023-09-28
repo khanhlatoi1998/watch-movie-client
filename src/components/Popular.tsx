@@ -14,8 +14,6 @@ const Popular = () => {
         keepPreviousData: true
     });
 
-    console.log(data)
-
     return (
         <section className="bg-color_main lg:pt-10 pt-6">
             <div className="container px-4 mx-auto">

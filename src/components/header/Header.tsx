@@ -3,6 +3,8 @@ import { ItemType } from "../../constants/type/inex";
 import NavItem from "./NavItem";
 import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
+import userServices from "../../api/userServices";
+import { useQuery } from "@tanstack/react-query";
 
 const Header = () => {
     const items: Array<ItemType> = [
@@ -37,6 +39,15 @@ const Header = () => {
     const [openMenu, setOpenMenu] = useState<boolean>(false);
     const [openSearch, setOpenSearch] = useState<boolean>(false);
     const userInfo = useSelector((state: any) => state.userInfo);
+
+    const { data, isLoading } = useQuery({
+        queryKey: ['getLikeMovies'],
+        queryFn: () => userServices.getFavoriteMovies(userInfo.token),
+        staleTime: 100,
+        keepPreviousData: true
+    });
+
+    console.log(data)
 
     return (
         <header className="bg-color_main block text-md fixed z-[100] inset-x-0">
@@ -84,8 +95,11 @@ const Header = () => {
                                     : (<i className="fa-regular fa-user"></i>)
                             }
                         </NavLink>
-                        <NavLink to="/favorite" className={({ isActive }) => (`p-1 hover:text-color_01 ${isActive ? "text-color_01" : ""}`)}>
-                            <i className="fa-solid fa-heart"></i>
+                        <NavLink to="/profile/favorites-movies" className="p-1 hover:text-color_01 relative">
+                            <i className="fa-solid fa-heart text-2xl"></i>
+                            <div className="w-[21px] h-[21px] rounded-full bg-color_01 absolute left-[50%] top-0 translate-x-[-50%] translate-y-[-100%] flex flex-col justify-center items-center">
+                                <p className="text-xs text-white font-medium">{data?.length || 0}</p>
+                            </div>
                         </NavLink>
                     </div>
                 </nav>
