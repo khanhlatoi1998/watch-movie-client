@@ -2,34 +2,14 @@ import './style/global.scss'
 import './style/custom.scss';
 import './style/loading.scss';
 
-import userServices from './api/userServices';
-import { useQuery } from '@tanstack/react-query';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from "@hookform/resolvers/yup";
-import { LoginValidation } from './validation/UserValidation';
-import InlineError from './notfications/Error';
-import HomePage from './pages/HomePage';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Login from './pages/Login';
 import Footer from './components/Footer';
 import React, { Suspense } from 'react';
 import Header from './components/header/Header';
 import { routes } from './routes';
-import { Toaster, toast } from 'react-hot-toast';
-import Loader from './components/Loader';
-import { useSelector } from 'react-redux';
+import { Toaster } from 'react-hot-toast';
 
 function App() {
-    // const { data, isLoading } = useQuery({
-    //     queryKey: ['userServices'],
-    //     queryFn: () => userServices.loginService({
-    //         email: 'khanhla3344werui@gmail.com',
-    //         password: "124234edaq24245",
-    //     }),
-    //     // staleTime: 1000
-    //     keepPreviousData: true
-    // });
-
     const HomePage = React.lazy(() => import('./pages/HomePage'));
 
     return (

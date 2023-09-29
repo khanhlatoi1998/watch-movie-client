@@ -23,18 +23,6 @@ const Header = () => {
             label: 'Contact Us',
             active: false,
         },
-        // {
-        //     link: '/user',
-        //     label: '',
-        //     active: false,
-        //     icon: <i className="fa-regular fa-user"></i>
-        // },
-        // {
-        //     link: '/favorite',
-        //     label: '',
-        //     active: false,
-        //     icon: <i className="fa-solid fa-heart"></i>
-        // }
     ];
     const [openMenu, setOpenMenu] = useState<boolean>(false);
     const [openSearch, setOpenSearch] = useState<boolean>(false);
@@ -46,8 +34,6 @@ const Header = () => {
         staleTime: 100,
         keepPreviousData: true
     });
-
-    console.log(data)
 
     return (
         <header className="bg-color_main block text-md fixed z-[100] inset-x-0">
@@ -90,7 +76,7 @@ const Header = () => {
                             {
                                 userInfo
                                     ? (<figure>
-                                        <img className="w-8 h-8 rounded-full border border-solid object-cover border-color_01" src={userInfo.image} alt="" />
+                                        <img className="w-8 h-8 rounded-full border border-solid object-cover border-color_01" src={userInfo?.image} alt="" />
                                     </figure>)
                                     : (<i className="fa-regular fa-user"></i>)
                             }
