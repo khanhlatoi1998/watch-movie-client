@@ -22,7 +22,7 @@ const movieServices = {
     getPopularMovies: async (params?: Object) => {
         console.log('getPopularMovie');
         let url = '/movies/ramdom/all';
-        const data: any = await axiosClient.get(url, params);
+        const data: any = await axiosClient.get(url, {params});
         return data;
     },
     getRatedTopMovies: async (params?: Object) => {
@@ -35,6 +35,12 @@ const movieServices = {
         console.log('getRelatedMovie');
         let url = '/movies/rated/top';
         const data: any = await axiosClient.get(url, params);
+        return data;
+    },
+    getMovies: async (params?: Object) => {
+        console.log('getMovies');
+        let url = '/movies';
+        const data: any = await axiosClient.get(url, {params});
         return data;
     },
     getMovieById: async (_id: any) => {

@@ -2,13 +2,14 @@ import { A11y, Autoplay, Navigation, Pagination } from "swiper";
 import { MovieType } from "../constants/type/inex";
 import ItemTopRated from "./ItemTopRated";
 import { SwiperSlide, Swiper, useSwiper } from "swiper/react";
-import { useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { listMoves } from "../data";
 import movieServices from "../api/movieServices";
 import { useQuery } from "@tanstack/react-query";
 import Loader from "./Loader";
 
-const TopRate = () => {
+
+const TopRate: React.FC<{refetch?: any}> = () => {
 
     const { data, isLoading } = useQuery({
         queryKey: ['moviesServices'],

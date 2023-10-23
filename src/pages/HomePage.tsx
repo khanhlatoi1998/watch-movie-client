@@ -15,9 +15,13 @@ interface Props {
 
 const HomePage: React.FC<Props> = () => {
     const { data: popularMovies, isLoading: isLoadingPopularMovies } = useQuery({
-        queryKey: ['moviesServices'],
-        queryFn: () => movieServices.getPopularMovies()
+        queryKey: ['getPopularMovie'],
+        queryFn: () => movieServices.getPopularMovies({
+            limit: 8
+        })
     });
+
+    console.log(popularMovies)
     return (
         <>
             <HeroSlice popularMovies={popularMovies} />

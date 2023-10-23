@@ -8,20 +8,23 @@ import { Autoplay, Mousewheel, Pagination } from "swiper";
 import { useQuery } from "@tanstack/react-query";
 import movieServices from "../api/movieServices";
 import { AddCastType } from "../constants/type/inex";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TopRate from "../components/TopRated";
 
 const Detail = () => {
     const [openMovie, setOpenMovie] = useState<boolean>(false);
     let { id } = useParams();
 
-    const { data, isLoading } = useQuery({
+    const { data, isLoading, refetch } = useQuery({
         queryKey: ['detailMovie'],
         queryFn: () => movieServices.getMovieById(id),
         staleTime: 1000,
         keepPreviousData: true
     });
 
+    useEffect(() => {
+        refetch()
+    }, [id]);
 
 
     return (
@@ -130,7 +133,7 @@ const Detail = () => {
                 </div>
                 <Reviews reviews={data?.reviews} />
                 {/* <Related /> */}
-                <TopRate />
+                <TopRate refetch={refetch} />
             </div>
         </section>
     );

@@ -5,9 +5,13 @@ import { TbPlayerTrackNext, TbPlayerTrackPrev } from 'react-icons/tb';
 import { FastField, Form, Formik } from 'formik';
 import SelectField from "../custom-fields/SelectField";
 import { CATEGORY_OPTIONS, HOURS_OPTIONS, LANGUAGE_OPTIONS, RATES_OPTIONS, YEAR_OPTIONS } from "../constants/global";
+import { useQuery } from "@tanstack/react-query";
+import movieServices from "../api/movieServices";
+import { useState } from "react";
 
 
 const MoviesTemplate = () => {
+    const [page, setPage] = useState<number>(1);
     const initialValues: SearchType = {
         category: '',
         language: '',
@@ -20,6 +24,27 @@ const MoviesTemplate = () => {
         console.log(values);
     };
 
+    const nextData = () => {
+        if (page < data.pages) {
+            setPage(p => p + 1)
+        }
+    };
+
+    const prevData = () => {
+        if (page > 1) {
+            setPage(p => p - 1)
+        }
+    };
+
+    const { data, isLoading } = useQuery({
+        queryKey: ['moviesTemplate', page],
+        queryFn: () => movieServices.getMovies({
+            limit: 8,
+            page: page
+        })
+    });
+
+    console.log(data)
 
 
     return (
@@ -85,12 +110,12 @@ const MoviesTemplate = () => {
                 </Formik>
                 <div>
                     <p className="font-bold mt-8 text-title-lg text-title">
-                        Total <span className="text-color_01">10</span> items Found
+                        Total <span className="text-color_01">{data?.length}</span> items Found
                     </p>
                     <div>
                         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-8 mt-10">
                             {
-                                listMoves.map((movie: MovieType, idx: number) => {
+                                data?.movies.map((movie: MovieType, idx: number) => {
                                     return (
                                         <Movie key={idx} movie={movie} />
                                     )
@@ -98,10 +123,10 @@ const MoviesTemplate = () => {
                             }
                         </div>
                         <div className="flex px-4 lg:pt-14 pt-10 justify-center items-center gap-6">
-                            <button className="py-2 px-4 border-2 border-solid border-color_01 rounded text-title-lg">
+                            <button className="py-2 px-4 border-2 border-solid border-color_01 rounded text-title-lg" onClick={prevData}>
                                 <TbPlayerTrackPrev />
                             </button>
-                            <button className="py-2 px-4 border-2 border-solid border-color_01 rounded text-title-lg" >
+                            <button className="py-2 px-4 border-2 border-solid border-color_01 rounded text-title-lg" onClick={nextData}>
                                 <TbPlayerTrackNext />
                             </button>
                         </div>

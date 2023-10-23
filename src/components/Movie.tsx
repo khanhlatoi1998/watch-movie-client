@@ -38,7 +38,7 @@ const Movie: React.FC<Props> = ({
     }
 
     return (
-        <NavLink to={`detail/${_id}`} className="border border-solid border-gray-500 p-1 rounded hover:scale-[0.96] cursor-pointer transition duration-300">
+        <NavLink to={`/detail/${_id}`} className="border border-solid border-gray-500 p-1 rounded hover:scale-[0.96] cursor-pointer transition duration-300">
             <div className="relative pt-[83%]">
                 <img src={imageWithTitleValue} alt="" className="absolute top-0 left-0 w-full h-full object-fill" />
                 <div className="absolute bottom-0 left-0 flex justify-between items-center gap-2 bg-[#00000070] w-full px-4 py-3" >
